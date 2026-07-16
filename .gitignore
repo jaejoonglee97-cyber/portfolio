@@ -1,0 +1,15 @@
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 에디터
+.vscode/
+.idea/
+
+# 로컬 설정 (Claude Code 세션 설정 — 저장소에 올리지 않음)
+.claude/
+
+# 민감 파일 (혹시라도 생기면 제외)
+.env
+*.key

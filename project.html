@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>프로젝트 | 이재중 포트폴리오</title>
+  <meta name="description" content="사회복지 현장의 디지털 전환 프로젝트 상세" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=5" />
+  <script>
+    (function () {
+      var saved = localStorage.getItem("theme");
+      var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">본문으로 바로가기</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="index.html" class="brand">이재중</a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="index.html#featured">대표 프로젝트</a>
+        <a href="index.html#archive">아카이브</a>
+        <a href="index.html#ai">AI 작업 방식</a>
+        <a href="index.html#contact">연락</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="화면 테마 전환">테마</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <section class="detail-hero">
+        <a href="index.html#archive" class="back-link">← 아카이브로 돌아가기</a>
+        <h1 id="pTitle">프로젝트</h1>
+        <p class="summary" id="pSummary"></p>
+        <dl class="meta-table" id="pMeta"></dl>
+      </section>
+
+      <div class="detail-thumb" id="pThumb" role="img" aria-label="프로젝트 대표 화면 자리">
+        <span class="thumb-icon" id="pIcon"></span>
+        <span>대표 화면 준비 중 (개인정보 검수 후 샘플 데이터 기준으로 게시)</span>
+      </div>
+
+      <div class="detail-body" id="pBody"></div>
+
+      <nav class="detail-nav" id="pNav" aria-label="프로젝트 이동"></nav>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© 2026 이재중. All rights reserved.</p>
+      <p>이 사이트의 콘텐츠 일부는 AI의 도움을 받아 제작되었으며, 모든 내용은 사람이 검토하고 최종 판단했습니다.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js?v=10"></script>
+  <script src="assets/js/project.js?v=5"></script>
+</body>
+</html>
