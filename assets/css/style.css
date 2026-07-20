@@ -400,6 +400,10 @@ a:focus-visible, button:focus-visible {
   border-top: 1px solid var(--line); background: var(--card); word-break: keep-all;
 }
 
+/* 라이브/저장소 링크 버튼 */
+.detail-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.detail-links .btn { min-height: 42px; padding: 10px 20px; font-size: 0.9rem; }
+
 .detail-body { display: grid; gap: 44px; padding-bottom: 72px; max-width: 760px; }
 .detail-section h2 {
   font-size: 1.15rem; font-weight: 800; margin-bottom: 12px;

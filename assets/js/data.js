@@ -10,8 +10,7 @@
    - "auto:live"     = 상태에 '운영'이 포함된 프로젝트 수 자동 계산 */
 const STATS = [
   { value: "auto:projects", label: "제작한 프로젝트" },
-  { value: 69, label: "신청 참여 기관", suffix: "곳" },
-  { value: 1000, label: "매뉴얼 진단 기관", prefix: "", suffix: "곳+" },
+  { value: 1000, label: "매뉴얼 진단 기관", suffix: "곳+" },
   { value: 11000, label: "누적 페이지 방문", suffix: "+" },
 ];
 
@@ -41,6 +40,12 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7.5c-1.5-1.9-4.1-2.1-5.6-.6C4.6 8.5 4.8 11.5 6 14.5c.8 2 2 4 3.5 4 .9 0 1.1-.5 2.5-.5s1.6.5 2.5.5c1.5 0 2.7-2 3.5-4 1.2-3 1.4-6-.4-7.6-1.5-1.4-4.1-1.3-5.6.6Z"/><path d="M12 7.5c0-1.6.6-2.9 2.2-3.6"/></svg>',
   dashboard:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="9" rx="1.2"/><rect x="4" y="16" width="7" height="4" rx="1.2"/><rect x="13" y="4" width="7" height="4" rx="1.2"/><rect x="13" y="11" width="7" height="9" rx="1.2"/></svg>',
+  route:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="5" r="2.2"/><path d="M8 19h6.5a3 3 0 0 0 0-6h-5a3 3 0 0 1 0-6H16"/></svg>',
+  megaphone:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 18 5v14l-15-6.5v-1Z"/><path d="M3 11.5v2a2 2 0 0 0 2 2h1.5"/><path d="M7 15.5V19a1 1 0 0 0 1 1h1.5a1 1 0 0 0 1-1v-2.2"/><path d="M20.5 9.5a3 3 0 0 1 0 5"/></svg>',
+  pin:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21Z"/><circle cx="12" cy="10.5" r="2.4"/></svg>',
 };
 
 const SITE = {
@@ -59,8 +64,10 @@ const PROJECTS = [
     slug: "yeolmae-apply",
     no: "01",
     icon: "clipboard",
+    image: "assets/img/apply-dashboard-1.png",
     title: "열매똑똑 3차년도 신청·심사 시스템",
     summary: "참여기관 모집부터 서류·면접심사와 최종선정까지 연결한 통합 운영 시스템",
+    links: [{ label: "라이브 보기", url: "https://3rd-apply.vercel.app/" }],
     period: "2026.06 – 2026.07",
     status: "운영",
     tier: "featured",
@@ -96,15 +103,21 @@ const PROJECTS = [
       result:
         "오프라인 서류 중심 절차를 신청부터 최종선정까지 온라인 흐름 하나로 연결했습니다. 69개 기관이 신청해 23개 기관이 최종 선정되었고, 서류심사 6명·면접심사 4명의 평가를 별도 심사 시스템으로 함께 운영했습니다.",
       stack: "웹 서비스, PDF 생성, 관리자 화면 / Codex(기획·PRD), Claude Code(구현)",
-      note: "화면 예시는 개인정보 검수 후 샘플 데이터 기준으로 교체 예정입니다.",
+      gallery: [
+        { src: "assets/img/apply-dashboard-1.png", caption: "운영자 대시보드 — 참여 단계·선호 플랫폼·디지털 전환 준비도 등 신청 현황 집계" },
+        { src: "assets/img/apply-dashboard-2.png", caption: "운영자 대시보드 — 기관 규모·서류심사 상태·자치구별 신청 분포" },
+      ],
+      note: "대시보드는 개인 식별정보 없는 집계 화면입니다. 신청서 등 개인정보가 포함된 화면은 샘플 데이터로 교체 후 게시할 예정입니다.",
     },
   },
   {
     slug: "yeolmae-hackathon",
     no: "02",
     icon: "trophy",
+    image: "assets/img/hackathon-archive.png",
     title: "열매똑똑 해커톤 허브",
     summary: "사회복지 현장의 문제 해결 과정을 기록하고 협업·심사·결과 아카이브까지 지원한 행사 플랫폼",
+    links: [{ label: "라이브 보기", url: "https://hackathon.sasw.or.kr/" }],
     period: "2026",
     status: "운영 완료",
     tier: "featured",
@@ -115,9 +128,9 @@ const PROJECTS = [
     featuredStory: "협력 중심 진행 보드에서 실제 행사 운영 플랫폼으로 확장했습니다.",
     visibility: "public",
     metrics: [
+      { value: "40곳", label: "참여 기관" },
+      { value: "80건", label: "제출작" },
       { value: "2,000+", label: "페이지 방문" },
-      { value: "109건", label: "참여 제출" },
-      { value: "64건", label: "결과물 아카이브" },
     ],
     detail: {
       problem:
@@ -136,9 +149,13 @@ const PROJECTS = [
       trial:
         "행사 진행 중 참가자 피드백을 받아 운영 흐름을 조정했고, AI 보조 평가는 심사위원의 판단을 돕는 참고 자료로만 사용하도록 명확히 했습니다.",
       result:
-        "109건의 참여 제출과 64건의 결과물이 기록되었고, 행사 종료 후에도 문제 해결 과정과 결과물이 아카이브로 남아 참가하지 않은 현장 관계자도 참고할 수 있게 되었습니다.",
+        "40개 기관이 참여해 80건의 결과물이 제출되었고, 행사 종료 후에도 문제 해결 과정과 결과물이 아카이브로 남아 참가하지 않은 현장 관계자도 참고할 수 있게 되었습니다.",
       stack: "웹 플랫폼, 댓글·협업 기능 / Gemini(보조 심사), Claude Code(구현)",
-      note: "활동사진은 초상권·공개 가능 여부 확인 후 게시합니다.",
+      gallery: [
+        { src: "assets/img/hackathon-archive.png", caption: "결과물 아카이브 — 40개 기관 80건의 제출작을 트랙별로 열람" },
+        { src: "assets/img/hackathon-home.jpg", caption: "행사 홈 화면 — 열매똑똑 스마트워크 소개와 활동 아카이브" },
+      ],
+      note: "활동사진은 초상권·공개 가능 여부를 확인한 자료입니다.",
     },
   },
   {
@@ -148,6 +165,7 @@ const PROJECTS = [
     image: "assets/img/how_to_use_manual.png",
     title: "스마트워크 디지털 전환 매뉴얼 웹서비스",
     summary: "377페이지 매뉴얼을 19문항 자가진단과 맞춤 페이지 추천이 가능한 웹 경험으로 재구성",
+    links: [{ label: "라이브 보기", url: "https://howtousemanual.vercel.app/" }],
     period: "2026",
     status: "완료",
     tier: "featured",
@@ -184,6 +202,7 @@ const PROJECTS = [
       gallery: [
         { src: "assets/img/how_to_use_manual.png", caption: "매뉴얼 웹서비스 첫 화면 — 실천 챕터·단계·분량 요약과 자가진단 진입" },
         { src: "assets/img/manual.png", caption: "열매똑똑 스마트워크 디지털 전환 매뉴얼 표지" },
+        { src: "assets/img/manual-briefing.jpg", caption: "3차년도 사업설명회 — 매뉴얼의 3단계(기반형·운영형·확장형) 진단 체계를 직접 소개" },
       ],
       note: null,
     },
@@ -192,6 +211,7 @@ const PROJECTS = [
     slug: "smartwork-rungame",
     no: "04",
     icon: "gamepad",
+    image: "assets/img/rungame.png",
     title: "스마트워크 성과공유회 런게임",
     summary: "성과공유회 참여를 높이기 위해 제작한 모바일 런게임",
     period: "2026",
@@ -204,16 +224,22 @@ const PROJECTS = [
     featuredStory: null,
     visibility: "public",
     metrics: [{ value: "600+", label: "참여 플레이" }],
+    links: [{ label: "라이브 보기", url: "https://dxevent.vercel.app" }],
     detail: {
       problem: "성과공유회 현장의 참여와 몰입을 높일 가벼운 장치가 필요했습니다.",
       users: "성과공유회 참석자",
       roles: "게임 기획과 제작, 행사 전·중·후 운영 조건 설계를 담당했습니다.",
       features: ["점프 조작 런게임", "점수·순위", "결과 공유", "이벤트 조건", "행사 종료 후 자유 플레이 전환"],
-      process: "Lovable을 제작 환경으로 활용해 빠르게 만들고, 행사 일정에 맞춰 기능을 조정했습니다.",
+      process: "토스의 '산타 출근시키기' 같은 이벤트형 러너 게임을 참고해, 참여 자체가 재미가 되는 단순한 조작으로 설계했습니다. Lovable을 제작 환경으로 빠르게 만들고 행사 일정에 맞춰 기능을 조정했습니다.",
       trial:
         "행사 중에는 이벤트 참여를 위해 최소한의 정보를 받았지만, 행사 종료 후에는 개인정보를 수집하지 않는 자유 플레이 모드로 전환했습니다. 운영 단계에 따라 수집 방식을 바꾼 판단이 이 프로젝트의 핵심 경험입니다.",
       result: "600회가 넘는 플레이로 행사 현장의 참여 장치 역할을 했고, 종료 후에는 개인정보 수집 없는 형태로 전환해 마무리했습니다.",
       stack: "모바일 웹 게임 / Lovable(제작 환경)",
+      gallery: [
+        { src: "assets/img/rungame.png", caption: "이벤트 랜딩 — 참여 안내와 경품 조건" },
+        { src: "assets/img/rungame-play.jpg", caption: "게임 플레이 — 장애물을 피하며 점수를 쌓는 러너 게임" },
+        { src: "assets/img/rungame-reference.png", caption: "참고한 레퍼런스 — 토스 '산타 출근시키기' 이벤트 (직접 제작물이 아닌 기획 참고용)" },
+      ],
       note: null,
     },
   },
@@ -250,28 +276,40 @@ const PROJECTS = [
     slug: "hangul-catch",
     no: "06",
     icon: "hand",
+    image: "assets/img/hangul-catch-play.png",
     title: "한글 캐치",
-    summary: "손을 오므리는 동작으로 한글 음절을 잡아 단어를 완성하는 아동용 교육게임 콘셉트",
+    summary: "손을 오므리는 동작으로 한글 음절을 잡아 단어를 완성하는 아동용 교육 게임",
+    links: [{ label: "라이브 보기", url: "https://hangeul-game-zeta.vercel.app/" }],
     period: "2026 –",
-    status: "R&D · 설계",
+    status: "프로토타입",
     tier: "rnd",
     category: ["아이디어·R&D"],
-    role: ["기획"],
-    tags: ["교육 게임", "손동작 인식"],
-    ai: ["MediaPipe(적용 예정)"],
+    role: ["기획", "개발"],
+    tags: ["교육 게임", "손동작 인식", "MediaPipe"],
+    ai: ["MediaPipe"],
     featuredStory: null,
     visibility: "public",
     detail: {
-      problem: "아동이 몸을 움직이며 한글을 익힐 수 있는 놀이형 학습 도구를 구상했습니다.",
+      problem: "아동이 몸을 움직이며 한글을 익힐 수 있는 놀이형 학습 도구를 만들고 싶었습니다.",
       users: "한글을 배우는 아동과 보호자",
-      roles: "콘셉트 설계와 기술 검토를 진행 중입니다.",
-      features: ["카메라 손동작 인식(계획)", "마우스·터치 대체 조작(계획)", "난이도 조절(계획)", "로컬 학습 기록(계획)"],
-      process: "MediaPipe 기반 손동작 인식을 검토하며 설계 단계에 있습니다.",
+      roles: "콘셉트 기획부터 손동작 인식 프로토타입 구현까지 진행했습니다.",
+      features: [
+        "카메라로 손동작(손 오므리기)을 인식",
+        "화면에 비친 손으로 한글 음절 타일을 잡아 단어 완성",
+        "마우스·터치 대체 조작",
+        "난이도 조절",
+      ],
+      process:
+        "MediaPipe 기반 손 인식으로, 화면에 비친 손을 오므려 음절 타일을 잡는 방식을 동작하는 프로토타입으로 구현했습니다.",
       trial:
-        "아동 대상 서비스이므로, 카메라 영상을 저장하지 않고 기기 안에서만 처리하는 보수적인 설계를 원칙으로 세웠습니다.",
-      result: "설계 단계 프로젝트로, 완성작이 아닌 콘셉트임을 명확히 합니다.",
-      stack: "MediaPipe(적용 예정)",
-      note: "설계 단계 프로젝트입니다.",
+        "아동 대상인 만큼, 카메라 영상을 저장하지 않고 기기 안에서만 처리하는 보수적인 설계를 원칙으로 세웠습니다.",
+      result: "설계에 그치지 않고 손동작으로 실제 플레이되는 프로토타입까지 만들었습니다.",
+      stack: "웹, MediaPipe(손동작 인식)",
+      gallery: [
+        { src: "assets/img/hangul-catch-play.png", caption: "게임 플레이 — 손을 움직여 음절 타일을 잡아 단어를 완성" },
+        { src: "assets/img/hangul-catch-camera.png", caption: "카메라 준비 화면 — 카메라 없이도 플레이할 수 있는 대체 조작 제공" },
+      ],
+      note: "개인 프로토타입 프로젝트이며, 카메라 영상은 저장하지 않고 기기 안에서만 처리합니다.",
     },
   },
   {
@@ -281,6 +319,7 @@ const PROJECTS = [
     image: "assets/img/attendance.png",
     title: "행사 QR 출석·명찰 자동화 시스템",
     summary: "행사 접수 데스크의 수기 확인·명찰 수작업을 QR 스캔과 자동 인쇄 한 흐름으로 연결한 현장 운영 시스템",
+    links: [{ label: "라이브 보기", url: "https://attendance-brown-eight.vercel.app/" }],
     period: "2026.04 – 2026.07",
     status: "운영",
     tier: "major",
@@ -331,6 +370,7 @@ const PROJECTS = [
     image: "assets/img/teams-training.png",
     title: "Teams 자기주도 학습 앱",
     summary: "협회 직원의 Microsoft Teams 적응을 돕는 체크리스트형 셀프 학습 웹앱",
+    links: [{ label: "라이브 보기", url: "https://teams-khaki.vercel.app/" }],
     period: "2026.05",
     status: "완료",
     tier: "minor",
@@ -367,6 +407,7 @@ const PROJECTS = [
     image: "assets/img/matzip.png",
     title: "맛집 평점 보정 알고리즘 실험",
     summary: "부풀려진 평점과 관광객 함정을 걸러내는 통계 보정 알고리즘을 적용한 맛집 추천 웹앱 실험",
+    links: [{ label: "라이브 보기", url: "https://matzip-coral.vercel.app/" }],
     period: "2026.03",
     status: "AI 실험",
     tier: "experiment",
@@ -395,6 +436,10 @@ const PROJECTS = [
       result:
         "통계 보정이라는 아이디어를 이틀 만에 동작하는 서비스로 검증했습니다. 업무 밖 개인 실험이지만, 데이터를 그대로 믿지 않고 보정하는 관점은 사업 데이터 분석에도 이어집니다.",
       stack: "React, TypeScript, Tailwind, 지도 검색 API, Vitest·Playwright 테스트 / Lovable(제작 환경)",
+      gallery: [
+        { src: "assets/img/matzip.png", caption: "검색 첫 화면 — 지역·음식 키워드로 진짜 현지 맛집 검색" },
+        { src: "assets/img/matzip-results.webp", caption: "분석 결과 — 베이즈 평균·현지인 지수로 보정한 자체 점수(Sopt)로 정렬" },
+      ],
       note: "사회복지 사업과 무관한 개인 기술 실험 프로젝트입니다.",
     },
   },
@@ -402,6 +447,7 @@ const PROJECTS = [
     slug: "shalom",
     no: "10",
     icon: "ball",
+    image: "assets/img/shalom-network.png",
     title: "축구팀 데이터 분석 앱",
     summary: "동호회 축구팀의 경기 기록과 선수별 통계를 관리하고, AI로 경기 기록을 정리하는 취미 프로젝트",
     period: "2026",
@@ -431,15 +477,21 @@ const PROJECTS = [
         "정형화되지 않은 텍스트를 일관된 데이터로 바꾸는 부분이 관건이라, AI 파싱 결과를 사람이 확인·수정하는 흐름을 함께 뒀습니다.",
       result: "취미로 만든 프로젝트지만, 흩어진 기록을 구조화된 데이터로 바꾸는 접근은 업무 데이터 정리와도 이어집니다.",
       stack: "Next.js, React, Google Sheets 연동, iron-session / Gemini(경기 기록 파싱)",
-      note: "취미로 만든 개인 프로젝트입니다.",
+      gallery: [
+        { src: "assets/img/shalom-network.png", caption: "선수 간 콤비 네트워크와 시즌 TOP5" },
+        { src: "assets/img/shalom-analysis.png", caption: "시즌 폼 추이·쿼터별 득실·상대전적 팀 분석" },
+      ],
+      note: "취미로 만든 개인 프로젝트입니다. 선수 이름은 동호회 구성원 표기입니다.",
     },
   },
   {
     slug: "weight-rival",
     no: "11",
     icon: "apple",
+    image: "assets/img/weight-rival.png",
     title: "식단·체중 일일 기록 앱",
     summary: "다이어트 식단과 체중을 매일 기록하고, 음식 사진으로 칼로리를 추정하며 경과를 시각화하는 취미 프로젝트",
+    links: [{ label: "라이브 보기", url: "https://weight-rival.vercel.app/" }],
     period: "2026",
     status: "개인 프로젝트",
     tier: "experiment",
@@ -474,8 +526,10 @@ const PROJECTS = [
     slug: "data-center",
     no: "12",
     icon: "dashboard",
+    image: "assets/img/datacenter-institution.png",
     title: "사업 운영 데이터 센터",
     summary: "강사·예약·일정·수료증·정산을 한곳에서 관리하는 사업 운영 통합 웹. 구축을 마치고 2026년 8월 운영 예정",
+    links: [{ label: "데모 보기", url: "https://data-center-teal-chi.vercel.app/" }],
     period: "2026",
     status: "도입 예정",
     tier: "major",
@@ -507,7 +561,132 @@ const PROJECTS = [
         "사업 운영 업무를 하나의 웹으로 통합해 구축을 마쳤고, 2026년 8월부터 실제 운영에 사용할 예정입니다.",
       stack:
         "Next.js, TypeScript, NextAuth(인증), Google Sheets 연동, Recharts / Groq(AI 보조)",
-      note: "개인정보를 다루는 시스템으로, 화면 예시는 접근 권한이 없는 공개 화면에 한해 추후 게시할 예정입니다.",
+      gallery: [
+        { src: "assets/img/datacenter-institution.png", caption: "참여 기관 화면 — 씨앗에서 열매까지 교육 이수 진행을 성장 단계로 표현" },
+        { src: "assets/img/datacenter-instructor.png", caption: "강사 화면 — 출강 기록 입력과 가능 시간 등록" },
+        { src: "assets/img/datacenter-admin.png", caption: "관리자 화면 — 기관 성장 현황과 승인 대기 관리" },
+      ],
+      note: "화면은 실제 데이터가 아닌 데모(샘플) 계정 기준이며, 2026년 8월부터 실제 운영에 사용할 예정입니다.",
+    },
+  },
+  {
+    slug: "road-runner",
+    no: "13",
+    icon: "route",
+    image: "assets/img/road-runner-result.png",
+    title: "달려라 하니 — 한강 러닝 코스 추천 앱",
+    summary: "출발지와 거리를 정하면 실제 도로 기반 왕복·편도 러닝 코스를 자동 생성해 주는 취미 프로젝트",
+    period: "2026.02",
+    status: "개인 프로젝트",
+    tier: "experiment",
+    category: ["아이디어·R&D"],
+    role: ["기획", "개발"],
+    tags: ["지도", "경로 생성", "위치 기반"],
+    ai: [],
+    featuredStory: null,
+    visibility: "public",
+    links: [{ label: "라이브 보기", url: "https://running-theta-three.vercel.app/" }],
+    detail: {
+      problem:
+        "달릴 때마다 '오늘은 어디를, 몇 km 뛰지?'를 정하는 게 번거로웠습니다. 지도를 보며 즉흥적으로 도는 대신, 원하는 거리에 맞는 코스를 바로 받고 싶었습니다.",
+      users: "러닝 코스를 정하기 번거로운 사람(개인 취미 프로젝트)",
+      roles: "직접 기획하고 만든 개인 프로젝트입니다.",
+      features: [
+        "출발지와 거리를 정하면 실제 도로 기반 코스 자동 생성",
+        "현재 위치(GPS) 또는 지도에서 직접 출발지 선택",
+        "왕복·편도 선택, 1~42km를 0.5km 단위로 조절",
+        "광화문·여의도·반포 등 12개 프리셋 코스",
+        "코스 저장·공유",
+      ],
+      process:
+        "OSRM 경로 엔진으로 실제 도로를 따라가는 경로를 만들고, 목표 거리에 맞춰 반환점을 계산하는 로직을 직접 구성했습니다. 지도는 Leaflet, 코스 저장은 Google Apps Script로 연결했습니다.",
+      trial:
+        "목표 거리에 정확히 맞는 왕복 코스를 만들려면 반환점을 어디에 둘지가 관건이라, 경로 재요청과 보정 로직을 다듬었습니다.",
+      result: "취미 프로젝트지만 지도·경로 API와 위치 기반 로직을 직접 다뤄 실제 동작하는 서비스로 배포했습니다.",
+      stack: "React, Vite, Leaflet, OSRM(경로), Google Apps Script(저장)",
+      gallery: [
+        { src: "assets/img/road-runner-result.png", caption: "생성된 러닝 코스 — 실제 도로를 따라 만든 왕복 경로" },
+        { src: "assets/img/road-runner.png", caption: "이용 가이드 — 모드 선택부터 코스 생성·공유까지 5단계 안내" },
+      ],
+      note: "취미로 만든 개인 프로젝트입니다.",
+    },
+  },
+  {
+    slug: "welfare-content",
+    no: "14",
+    icon: "megaphone",
+    image: "assets/img/welfare-elder.jpg",
+    title: "사회복지 현장 콘텐츠·홍보 기획",
+    summary: "복지관 후원 캠페인 영상과 어르신 영상 자서전 등 사회복지 현장의 이야기를 콘텐츠로 기획·제작",
+    period: "2022 – 2023",
+    status: "완료",
+    tier: "minor",
+    category: ["콘텐츠·홍보"],
+    role: ["기획", "제작"],
+    tags: ["영상 기획", "후원 캠페인", "홍보 콘텐츠"],
+    ai: [],
+    featuredStory: null,
+    visibility: "public",
+    detail: {
+      problem:
+        "복지관의 사업과 후원은 취지가 좋아도 현장 밖으로는 잘 전달되지 않았습니다. 딱딱한 안내문 대신, 사람의 이야기로 전하고 싶었습니다.",
+      users: "지역 주민, 후원자, 복지관을 이용하는 어르신",
+      roles: "콘텐츠 기획부터 촬영·편집까지 담당했습니다.",
+      features: [
+        "여름김장 후원 캠페인 영상 시리즈 — 후원 참여로 연결",
+        "어르신 영상 자서전 '삶의 지혜를 나눠요' 인터뷰 시리즈",
+        "'배달의 서사협' 등 현장 활동 기록 영상",
+      ],
+      process:
+        "통계나 공지가 아니라 어르신 한 분 한 분의 이야기와 현장의 장면을 담는 방식으로 접근했습니다. 후원 캠페인은 '무엇을 도와달라'가 아니라 '왜 함께하면 좋은지'를 이야기로 풀었습니다.",
+      trial:
+        "조회수 자체보다 후원·참여 같은 실제 행동으로 이어지는지를 기준으로 삼았습니다.",
+      result:
+        "후원 캠페인 영상은 실제 후원 참여로 이어졌고, 어르신 영상 자서전은 지역과 세대를 잇는 기록으로 남았습니다. '콘텐츠로 사람을 움직인' 이 경험이, 지금은 서비스를 만드는 일로 이어지고 있습니다.",
+      stack: "영상 기획·촬영·편집",
+      gallery: [
+        { src: "assets/img/welfare-elder.jpg", caption: "어르신 영상 자서전 '삶의 지혜를 나눠요' — 어르신 인터뷰 시리즈" },
+        { src: "assets/img/welfare-kimchi.jpg", caption: "여름김장 후원 캠페인 영상 시리즈" },
+      ],
+      note: "성수종합사회복지관 재직 당시의 콘텐츠·홍보 활동입니다.",
+    },
+  },
+  {
+    slug: "ilsangdo",
+    no: "15",
+    icon: "pin",
+    image: "assets/img/ilsangdo.jpg",
+    title: "일상도 — 동네 로컬 큐레이션",
+    summary: "내가 사는 동네 상도동을 직접 취재해 알리는 로컬 큐레이터 인스타그램 운영 (취미)",
+    period: "2024 –",
+    status: "개인 프로젝트",
+    tier: "experiment",
+    category: ["콘텐츠·홍보"],
+    role: ["기획", "제작", "운영"],
+    tags: ["로컬 큐레이션", "SNS 운영", "동네 콘텐츠"],
+    ai: [],
+    featuredStory: null,
+    visibility: "public",
+    detail: {
+      problem:
+        "오래 산 동네인데도 좋은 가게와 이야기가 잘 알려지지 않았습니다. 내가 아는 동네를 애정을 담아 제대로 소개하고 싶었습니다.",
+      users: "상도동 주민과 동네에 관심 있는 사람들",
+      roles: "취재·촬영·편집·운영을 혼자 합니다.",
+      features: [
+        "동네 가게·장소를 직접 다녀와 만든 큐레이션 콘텐츠",
+        "테마 기행(#상도테마기행) 기획",
+        "지역 기획전 '켜켜이 상도동' 참여",
+      ],
+      process:
+        "슬로건 '우리 동네 상도동을 더욱 알차게, 더욱 딥하게'로, 광고가 아니라 애정으로 동네를 기록합니다.",
+      trial: "꾸준함이 관건이라, 무리한 편집보다 오래 이어갈 수 있는 제작 방식을 택했습니다.",
+      result:
+        "꾸준한 운영으로 조회와 팔로워가 쌓였고 지역 기획전에도 참여했습니다. 같은 동네를 향한 관심은 맛집 평점 보정 실험(matzip)으로도 이어졌습니다.",
+      stack: "Instagram, 영상·이미지 제작",
+      gallery: [
+        { src: "assets/img/ilsangdo.jpg", caption: "일상도 피드 — 상도동 가게·장소 큐레이션" },
+      ],
+      note: "취미로 운영하는 개인 프로젝트입니다.",
     },
   },
 ];

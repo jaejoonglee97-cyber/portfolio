@@ -64,6 +64,20 @@
     metaEl.parentNode.insertBefore(metricsBox, metaEl.nextSibling);
   }
 
+  /* 라이브/저장소 링크 (메타 표 아래) */
+  if (p.links && p.links.length) {
+    var linksBox = document.createElement("div");
+    linksBox.className = "detail-links";
+    linksBox.innerHTML = p.links
+      .map(function (l) {
+        var cls = l.type === "repo" ? "btn btn-ghost" : "btn btn-primary";
+        return '<a class="' + cls + '" href="' + l.url + '" target="_blank" rel="noopener noreferrer">' + l.label + " ↗</a>";
+      })
+      .join("");
+    var anchor = document.querySelector(".metrics") || metaEl;
+    anchor.parentNode.insertBefore(linksBox, anchor.nextSibling);
+  }
+
   /* 썸네일: 스크린샷(image)이 있으면 이미지, 없으면 아이콘 */
   var thumbEl = document.getElementById("pThumb");
   if (p.image && thumbEl) {
