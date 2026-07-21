@@ -146,6 +146,14 @@
   var updated = document.getElementById("lastUpdated");
   if (updated) updated.textContent = SITE.updated;
 
+  /* ---------- 강점 네트워크 iframe 높이 자동 조정 ---------- */
+  window.addEventListener("message", function (e) {
+    if (e.data && typeof e.data.ontoH === "number") {
+      var f = document.getElementById("ontoFrame");
+      if (f) f.style.height = e.data.ontoH + "px";
+    }
+  });
+
   /* ---------- 스크롤 프로그레스 바 (③) ---------- */
   var progressBar = document.getElementById("progressBar");
   if (progressBar) {

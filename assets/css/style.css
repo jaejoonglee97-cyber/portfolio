@@ -162,6 +162,10 @@ a:focus-visible, button:focus-visible {
 .section { padding: 72px 0; border-top: 1px solid var(--line); }
 /* 격 섹션 옅은 초록 배경 (⑥) */
 .section-alt { background: color-mix(in srgb, var(--tint) 45%, var(--bg)); }
+
+/* 강점 네트워크 다크 밴드 (온톨로지 iframe) */
+.section-onto { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #0b100e; }
+.section-onto iframe { display: block; width: 100%; height: 780px; border: 0; }
 .section-head { margin-bottom: 40px; }
 .section-head .index {
   font-family: ui-monospace, "SF Mono", Consolas, monospace;
