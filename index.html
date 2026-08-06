@@ -11,7 +11,7 @@
   <meta property="og:image" content="assets/og-image.png" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <link rel="stylesheet" href="assets/css/style.css?v=7" />
+  <link rel="stylesheet" href="assets/css/style.css?v=8" />
   <script>
     // FOUC 방지: 저장된 테마 또는 시스템 설정을 렌더 전에 적용
     (function () {
@@ -75,6 +75,21 @@
             <p>그 일을 하며, 정작 현장을 지치게 하는 건 마음이 아니라 반복되는 수작업과 끊긴 업무 흐름이라는 걸 반복해서 확인했습니다. 좋은 사업이 행정에 눌려 정작 사람에게 닿지 못하는 순간들이 아쉬웠습니다.</p>
             <p>그래서 현장을 떠나 도구를 배우는 대신, 현장에 남아 필요한 도구를 직접 만드는 쪽을 택했습니다. 신청·심사, 행사 운영, 자가진단, 정산처럼 손이 많이 가던 일을 서비스로 바꾸고, 기획부터 제작과 운영까지 끝까지 맡아 왔습니다.</p>
             <p>사람을 향하던 마음은 그대로입니다. 다만 그 방식이 콘텐츠에서 서비스로 넓어졌을 뿐입니다. 사람이 할 일에 사람이 더 집중할 수 있도록, 오늘도 현장 곁에서 만들고 고쳐 나갑니다.</p>
+
+            <div class="translate-note">
+              <p class="tn-lead">저는 이 일을 <strong>번역</strong>이라고 부릅니다.</p>
+              <p>현장의 막연한 불편을 실행할 수 있는 사업으로, 어려운 도구를 현장의 언어로, 한 기관의 시행착오를 모두가 다시 쓸 수 있는 기록으로 옮기는 일입니다. 쓰는 도구는 계속 바뀌지만, 현장의 말을 듣고 이해할 수 있는 변화로 옮기는 방식은 남습니다.</p>
+            </div>
+
+            <div class="intro-switch">
+              <p class="is-label">어떤 분으로 오셨나요?</p>
+              <div class="is-tabs" role="group" aria-label="방문자 유형별 소개">
+                <button type="button" class="is-tab" data-intro="field" aria-pressed="true">현장 실무자</button>
+                <button type="button" class="is-tab" data-intro="manager" aria-pressed="false">기관 관리자</button>
+                <button type="button" class="is-tab" data-intro="hiring" aria-pressed="false">채용·협업 담당자</button>
+              </div>
+              <p class="is-msg" id="introMsg" aria-live="polite"></p>
+            </div>
           </div>
           <div class="timeline" aria-label="경력 타임라인">
             <div class="timeline-item">
@@ -104,7 +119,7 @@
 
     <!-- 강점 네트워크 (온톨로지) -->
     <section id="strength" class="section-onto" aria-label="이재중의 강점 네트워크">
-      <iframe id="ontoFrame" src="ontology.html?v=1" title="이재중의 강점 네트워크" scrolling="no" loading="lazy"></iframe>
+      <iframe id="ontoFrame" src="ontology.html?v=3" title="이재중의 강점 네트워크" scrolling="no" loading="lazy"></iframe>
     </section>
 
     <!-- 활동 흐름 -->
@@ -192,7 +207,7 @@
     </div>
   </footer>
 
-  <script src="assets/js/data.js?v=20"></script>
-  <script src="assets/js/main.js?v=7"></script>
+  <script src="assets/js/data.js?v=21"></script>
+  <script src="assets/js/main.js?v=9"></script>
 </body>
 </html>

@@ -146,6 +146,30 @@
   var updated = document.getElementById("lastUpdated");
   if (updated) updated.textContent = SITE.updated;
 
+  /* ---------- 방문자 유형별 소개 토글 ---------- */
+  var INTROS = {
+    field:
+      "현장의 반복 업무와 어려움을 먼저 듣고, 오늘 바로 써볼 수 있는 작은 변화부터 함께 만듭니다. 제가 만든 것들도 실제 현장에서 겪은 문제에서 시작했습니다.",
+    manager:
+      "도구를 도입하는 데서 끝내지 않고, 구성원이 실제로 사용하고 조직에 남는 과정까지 설계합니다. 담당자가 바뀌어도 계속 굴러가도록 매뉴얼과 운영 방식을 함께 남깁니다.",
+    hiring:
+      "현장 경험과 협회의 사업 운영 경험을 함께 가지고 있습니다. 복잡한 현장의 요구를 실행 가능한 사업과 서비스로 구조화하고, 기획부터 제작·운영까지 끝까지 맡아 왔습니다.",
+  };
+  var introTabs = document.querySelectorAll(".is-tab");
+  var introMsg = document.getElementById("introMsg");
+  if (introTabs.length && introMsg) {
+    var setIntro = function (key) {
+      introMsg.textContent = INTROS[key] || "";
+      introTabs.forEach(function (t) {
+        t.setAttribute("aria-pressed", t.getAttribute("data-intro") === key ? "true" : "false");
+      });
+    };
+    introTabs.forEach(function (t) {
+      t.addEventListener("click", function () { setIntro(t.getAttribute("data-intro")); });
+    });
+    setIntro("field");
+  }
+
   /* ---------- 강점 네트워크 iframe 높이 자동 조정 ---------- */
   window.addEventListener("message", function (e) {
     if (e.data && typeof e.data.ontoH === "number") {

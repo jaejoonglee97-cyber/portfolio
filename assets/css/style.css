@@ -182,6 +182,32 @@ a:focus-visible, button:focus-visible {
 .about-text p { margin-bottom: 16px; word-break: keep-all; }
 .about-text .lead { font-size: 1.1rem; font-weight: 700; color: var(--teal); }
 
+/* 번역 정체성 노트 */
+.translate-note {
+  margin-top: 26px; padding: 20px 22px; border-left: 3px solid var(--teal);
+  background: var(--tint); border-radius: 0 var(--radius) var(--radius) 0;
+}
+.translate-note .tn-lead { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.translate-note .tn-lead strong { color: var(--teal); }
+.translate-note p:last-child { margin-bottom: 0; font-size: 0.94rem; color: var(--muted); }
+
+/* 방문자 유형별 소개 */
+.intro-switch { margin-top: 26px; }
+.intro-switch .is-label { font-size: 0.85rem; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
+.is-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.is-tab {
+  background: var(--card); border: 1px solid var(--line); color: var(--muted);
+  border-radius: 999px; padding: 8px 16px; min-height: 40px;
+  font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+}
+.is-tab:hover { border-color: var(--teal); color: var(--teal); }
+.is-tab[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: #fff; }
+[data-theme="dark"] .is-tab[aria-pressed="true"] { color: #0e1210; }
+.is-msg {
+  margin-top: 14px; padding: 14px 18px; border: 1px dashed var(--line); border-radius: var(--radius);
+  font-size: 0.95rem; color: var(--ink); word-break: keep-all; line-height: 1.65; min-height: 58px;
+}
+
 .timeline { border-left: 2px solid var(--line); padding-left: 24px; display: grid; gap: 24px; }
 .timeline-item { position: relative; }
 .timeline-item::before {

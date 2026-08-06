@@ -138,16 +138,27 @@
     );
   }
 
+  // 섹션 번호를 있는 것만 세어 자동으로 매김
+  var n = 0;
+  function sec(heading, html) {
+    if (!html) return "";
+    n += 1;
+    var label = n < 10 ? "0" + n : String(n);
+    return section(label, heading, html);
+  }
+
   bodyEl.innerHTML =
-    section("01", "해결하려던 현장 문제", para(d.problem)) +
-    section("02", "대상 사용자", para(d.users)) +
-    section("03", "맡은 역할", para(d.roles)) +
-    section("04", "주요 기능", list(d.features)) +
-    section("05", "제작과 운영 과정", para(d.process)) +
-    section("06", "시행착오와 개선", para(d.trial)) +
-    section("07", "결과와 배운 점", para(d.result)) +
-    section("08", "사용 기술과 AI", para(d.stack)) +
-    (d.gallery && d.gallery.length ? section("09", "관련 화면", gallery(d.gallery)) : "") +
+    sec("해결하려던 현장 문제", para(d.problem)) +
+    sec("대상 사용자", para(d.users)) +
+    sec("맡은 역할", para(d.roles)) +
+    sec("주요 기능", list(d.features)) +
+    sec("제작과 운영 과정", para(d.process)) +
+    sec("시행착오와 개선", para(d.trial)) +
+    sec("결과와 배운 점", para(d.result)) +
+    sec("다른 방법은 없었을까", para(d.alternatives)) +
+    sec("다음에 비슷한 일을 만나면", para(d.nextTime)) +
+    sec("사용 기술과 AI", para(d.stack)) +
+    (d.gallery && d.gallery.length ? sec("관련 화면", gallery(d.gallery)) : "") +
     (d.note ? '<p class="detail-note">' + d.note + "</p>" : "");
 
   /* ---------- 이전/다음 ---------- */

@@ -13,6 +13,8 @@
   .head .eyebrow { font-size: 0.78rem; letter-spacing: 0.2em; color: #34d399; font-weight: 700; text-transform: uppercase; }
   .head h1 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800; margin-top: 10px; letter-spacing: -0.02em; }
   .head p { color: #8ba39a; margin-top: 9px; font-size: 0.9rem; padding: 0 16px; word-break: keep-all; }
+  .head p.thesis { color: #b9c4bf; margin-top: 7px; font-size: 0.88rem; }
+  .head p.thesis b { color: #f4c86a; font-weight: 800; }
   .legend { display: flex; gap: 14px 18px; justify-content: center; flex-wrap: wrap; margin: 14px auto 0; position: relative; z-index: 3; font-size: 0.82rem; padding: 0 16px; }
   .legend span { display: inline-flex; align-items: center; gap: 7px; color: #b9c4bf; }
   .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
@@ -47,6 +49,7 @@
     <div class="eyebrow">이재중 · Strength Network</div>
     <h1>이재중의 강점 네트워크</h1>
     <p>진단으로 검증된 이재중의 대표 강점을 중심으로, 다섯 가지 실무 강점이 함께 돕니다.</p>
+    <p class="thesis">이 강점들을 관통하는 한 단어 — <b>번역</b>. 현장의 필요를 변화의 언어로 옮깁니다.</p>
   </div>
   <div class="legend">
     <span><i style="background:#f4c86a"></i>대표 강점 <small>· 태니지먼트 진단 2026.07</small></span>
@@ -170,7 +173,18 @@ stage.addEventListener("click",e=>{ if(e.target===stage||e.target===canvas||e.ta
 
 function reportH(){ try{ if(window.parent!==window) window.parent.postMessage({ontoH: Math.ceil(document.body.getBoundingClientRect().height)}, "*"); }catch(e){} }
 let rt; window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ layout(); render(); reportH(); },120); });
-setTimeout(()=>{ layout(); render(); requestAnimationFrame(frame); reportH(); setTimeout(reportH,700); },50);
+function boot(){ layout(); render(); reportH(); }
+setTimeout(()=>{ boot(); requestAnimationFrame(frame); setTimeout(reportH,700); },50);
+// lazy iframe이 화면 밖에서 로드되면 stage 크기를 못 재 높이가 0으로 굳는다.
+// 폭이 잡혔는데 높이가 0이면 다시 계산한다(초기 몇 초간 확인 + 리사이즈 감지).
+let fixTries = 0;
+const fixTimer = setInterval(()=>{
+  if (stage.clientWidth > 0 && stage.clientHeight === 0) { boot(); }
+  if (stage.clientHeight > 0 || ++fixTries > 40) clearInterval(fixTimer);
+}, 150);
+if (window.ResizeObserver) {
+  new ResizeObserver(()=>{ if (stage.clientWidth > 0 && stage.clientHeight === 0) boot(); }).observe(stage);
+}
 </script>
 </body>
 </html>
