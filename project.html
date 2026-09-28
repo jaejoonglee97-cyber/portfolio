@@ -7,7 +7,7 @@
   <meta name="description" content="사회복지 현장의 디지털 전환 프로젝트 상세" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <link rel="stylesheet" href="assets/css/style.css?v=9" />
+  <link rel="stylesheet" href="assets/css/style.css?v=14" />
   <script>
     (function () {
       var saved = localStorage.getItem("theme");
@@ -22,8 +22,10 @@
   <header class="site-header">
     <div class="wrap">
       <a href="index.html" class="brand">이재중</a>
-      <nav class="nav" aria-label="주요 메뉴">
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="siteNav">메뉴</button>
+      <nav class="nav" id="siteNav" aria-label="주요 메뉴">
         <a href="index.html#featured">대표 프로젝트</a>
+        <a href="index.html#record">현장 기록</a>
         <a href="index.html#archive">아카이브</a>
         <a href="index.html#ai">AI 작업 방식</a>
         <a href="index.html#contact">연락</a>
@@ -59,7 +61,7 @@
     </div>
   </footer>
 
-  <script src="assets/js/data.js?v=25"></script>
-  <script src="assets/js/project.js?v=8"></script>
+  <script src="assets/js/data.js?v=30"></script>
+  <script src="assets/js/project.js?v=9"></script>
 </body>
 </html>

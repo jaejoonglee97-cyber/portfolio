@@ -24,6 +24,23 @@
     applyThemeLabel();
   }
 
+  /* ---------- 모바일 메뉴 ---------- */
+  var menuToggle = document.getElementById("menuToggle");
+  var siteNav = document.getElementById("siteNav");
+  if (menuToggle && siteNav) {
+    var setMenu = function (open) {
+      siteNav.classList.toggle("open", open);
+      menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      menuToggle.textContent = open ? "닫기" : "메뉴";
+    };
+    menuToggle.addEventListener("click", function () {
+      setMenu(!siteNav.classList.contains("open"));
+    });
+    siteNav.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { setMenu(false); });
+    });
+  }
+
   /* ---------- 상태 배지 클래스 ---------- */
   function statusClass(status) {
     if (status === "운영") return "status-live";
@@ -56,12 +73,11 @@
           ? '<div class="thumb has-img"><img src="' + p.image + '" alt="' + p.title + ' 화면" loading="lazy" /></div>'
           : '<div class="thumb" role="img" aria-label="' + p.title + ' 대표 화면 자리">' +
             '<span class="thumb-icon">' + iconSvg + "</span>" +
-            "<span>대표 화면 준비 중<br/>(개인정보 검수 후 게시)</span></div>";
+            (p.thumbNote ? "<span>" + p.thumbNote + "</span>" : "") + "</div>";
         card.innerHTML =
           thumbHtml +
           '<div class="body">' +
           '<div class="card-meta">' +
-          '<span class="proj-no">' + p.no + "</span>" +
           '<span class="badge ' + statusClass(p.status) + '">' + p.status + "</span>" +
           p.category.map(function (c) { return '<span class="badge">' + c + "</span>"; }).join("") +
           "</div>" +
@@ -100,11 +116,22 @@
           var rowCats = row.getAttribute("data-cats").split("|");
           row.classList.toggle("hidden", c !== "전체" && rowCats.indexOf(c) < 0);
         });
+        // 분야를 고르면 해당 항목을 모두 보여 줌
+        if (c !== "전체") unfold();
       });
       filterBar.appendChild(b);
     });
 
-    publicProjects.forEach(function (p) {
+    // 업무 비중 순으로 정렬 (대표 → 주요 → 기타 → 실험 → 개인), 같은 묶음 안에서는 번호순
+    var TIER_RANK = { featured: 0, major: 1, minor: 2, rnd: 3, experiment: 4 };
+    function rank(p) {
+      return (p.status === "개인 프로젝트" ? 10 : 0) + (TIER_RANK[p.tier] != null ? TIER_RANK[p.tier] : 5);
+    }
+    var archiveOrder = publicProjects.slice().sort(function (a, b) {
+      return rank(a) - rank(b) || parseInt(a.no, 10) - parseInt(b.no, 10);
+    });
+
+    archiveOrder.forEach(function (p) {
       var a = document.createElement("a");
       a.className = "archive-row";
       a.href = "project.html?slug=" + p.slug;
@@ -116,6 +143,91 @@
         '<span class="period">' + p.period + "</span></span>";
       archiveList.appendChild(a);
     });
+
+    // 처음에는 일부만 보이고 '모두 보기'로 펼침
+    var FOLD_AT = 10;
+    var rows = archiveList.querySelectorAll(".archive-row");
+    var moreBox = document.createElement("div");
+    moreBox.className = "archive-more";
+    var moreBtn = document.createElement("button");
+    moreBtn.type = "button";
+    moreBtn.className = "btn btn-ghost";
+    moreBtn.textContent = "전체 " + rows.length + "개 모두 보기";
+    moreBox.appendChild(moreBtn);
+    archiveList.parentNode.insertBefore(moreBox, archiveList.nextSibling);
+    function unfold() {
+      rows.forEach(function (r) { r.classList.remove("folded"); });
+      moreBox.hidden = true;
+    }
+    if (rows.length > FOLD_AT) {
+      rows.forEach(function (r, i) { if (i >= FOLD_AT) r.classList.add("folded"); });
+      moreBtn.addEventListener("click", unfold);
+    } else {
+      moreBox.hidden = true;
+    }
+  }
+
+  /* ---------- 현장 기록: 영상·인터뷰 ---------- */
+  var mediaList = document.getElementById("mediaList");
+  if (mediaList && typeof MEDIA !== "undefined") {
+    var videoGrid = document.createElement("div");
+    videoGrid.className = "video-grid";
+    mediaList.appendChild(videoGrid);
+    MEDIA.forEach(function (m) {
+      var a = document.createElement("a");
+      var isVideo = !!m.thumb;
+      a.className = isVideo ? "media-card" : "media-card no-thumb";
+      // 직접 발표한 구간이 있으면 그 시점부터 재생
+      a.href = m.start ? m.url + "&t=" + m.start + "s" : m.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.innerHTML =
+        (isVideo
+          ? '<span class="media-thumb"><img src="' + m.thumb + '" alt="" loading="lazy" />' +
+            '<span class="play" aria-hidden="true"></span>' +
+            (m.length ? '<span class="media-len">' + m.length + "</span>" : "") + "</span>"
+          : '<span class="media-quote" aria-hidden="true">\u201C</span>') +
+        '<span class="media-body">' +
+        '<span class="media-meta"><span class="badge status-live">' + m.type + "</span>" +
+        "<span>" + (isVideo ? m.date : m.source + " · " + m.date) + "</span></span>" +
+        '<span class="media-title">' + m.title + (isVideo ? "" : " \u2197") + "</span>" +
+        '<span class="media-desc">' + m.desc + "</span>" +
+        (m.startLabel ? '<span class="media-start">\u25B6 ' + m.startLabel + "</span>" : "") +
+        "</span>";
+      (isVideo ? videoGrid : mediaList).appendChild(a);
+    });
+  }
+
+  /* ---------- 현장 기록: 활동브리핑 ---------- */
+  var activityGrid = document.getElementById("activityGrid");
+  if (activityGrid && typeof ACTIVITY !== "undefined") {
+    var countEl = document.getElementById("activityCount");
+    if (countEl) countEl.textContent = ACTIVITY.length + "건 · " + ACTIVITY[ACTIVITY.length - 1].date.slice(0, 7) + " –";
+    ACTIVITY.forEach(function (r, i) {
+      var a = document.createElement("a");
+      a.className = "activity-card" + (i >= 6 ? " folded" : "");
+      a.href = "https://sasw.or.kr/briefing/" + r.id;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.innerHTML =
+        '<span class="activity-photo"><img src="assets/img/record/' + r.id + '.jpg" alt="' + r.title + ' 현장 사진" loading="lazy" /></span>' +
+        '<span class="activity-body">' +
+        '<span class="activity-date">' + r.date + "</span>" +
+        '<span class="activity-title">' + r.title + "</span>" +
+        '<span class="activity-desc">' + r.desc + "</span>" +
+        "</span>";
+      activityGrid.appendChild(a);
+    });
+    var actMore = document.getElementById("activityMore");
+    var actBtn = document.getElementById("activityMoreBtn");
+    if (actMore && actBtn && ACTIVITY.length > 6) {
+      actMore.hidden = false;
+      actBtn.textContent = "활동 기록 " + ACTIVITY.length + "건 모두 보기";
+      actBtn.addEventListener("click", function () {
+        activityGrid.querySelectorAll(".activity-card.folded").forEach(function (c) { c.classList.remove("folded"); });
+        actMore.hidden = true;
+      });
+    }
   }
 
   /* ---------- AI 작업 방식 ---------- */

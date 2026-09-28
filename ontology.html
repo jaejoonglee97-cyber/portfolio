@@ -8,7 +8,7 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: radial-gradient(130% 100% at 50% 14%, #12241e 0%, #0b100e 52%, #070a09 100%);
-    color: #e6ebe8; font-family: "Pretendard Variable", Pretendard, sans-serif; min-height: 100vh; overflow-x: hidden; }
+    color: #e6ebe8; font-family: "Pretendard Variable", Pretendard, sans-serif; min-height: 100vh; overflow-x: hidden; padding-bottom: 36px; }
   .head { text-align: center; padding: 24px 20px 2px; position: relative; z-index: 3; }
   .head .eyebrow { font-size: 0.78rem; letter-spacing: 0.2em; color: #34d399; font-weight: 700; text-transform: uppercase; }
   .head h1 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800; margin-top: 10px; letter-spacing: -0.02em; }
@@ -30,7 +30,7 @@
   .node .en { text-anchor: middle; dominant-baseline: central; font-weight: 600; pointer-events: none; opacity: .8; }
   .node .bar { }
   .node.dim { opacity: .3; }
-  .cap { max-width: 620px; margin: 2px auto 30px; min-height: 96px; padding: 18px 22px; text-align: center; position: relative; z-index: 3;
+  .cap { max-width: 620px; margin: 2px auto 0; min-height: 96px; padding: 18px 22px; text-align: center; position: relative; z-index: 3;
     border-radius: 16px; border: 1px solid transparent; background: transparent; transition: background .2s, border-color .2s; }
   .cap.has-projs { background: rgba(20,36,30,0.72); border-color: #234238; }
   .cap .ck { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -172,8 +172,20 @@ stage.addEventListener("mousemove",e=>{ const r=stage.getBoundingClientRect(); t
 stage.addEventListener("click",e=>{ if(e.target===stage||e.target===canvas||e.target===svg){ paused=false; active=null; clearCap(); } });
 
 function reportH(){ try{ if(window.parent!==window) window.parent.postMessage({ontoH: Math.ceil(document.body.getBoundingClientRect().height)}, "*"); }catch(e){} }
-let rt; window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ layout(); render(); reportH(); },120); });
-function boot(){ layout(); render(); reportH(); }
+// 설명 상자는 노드마다 길이가 달라, 가장 긴 경우의 높이를 미리 잡아 둔다
+// (hover 때마다 페이지가 들썩이거나 iframe 아래가 잘리지 않도록)
+function reserveCap(){
+  const keep=cap.innerHTML, had=cap.classList.contains("has-projs");
+  cap.style.minHeight="0px"; let max=0;
+  ALL.forEach(n=>{ renderCap(n.id); max=Math.max(max,cap.offsetHeight); });
+  cap.innerHTML=keep; cap.classList.toggle("has-projs",had);
+  cap.style.minHeight=max+"px";
+}
+let rt; window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ layout(); render(); reserveCap(); reportH(); },120); });
+function boot(){ layout(); render(); reserveCap(); reportH(); }
+// 글꼴 로딩 등으로 높이가 바뀌어도 부모에 다시 알림
+if (window.ResizeObserver) new ResizeObserver(()=>reportH()).observe(document.body);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ reserveCap(); reportH(); });
 setTimeout(()=>{ boot(); requestAnimationFrame(frame); setTimeout(reportH,700); },50);
 // lazy iframe이 화면 밖에서 로드되면 stage 크기를 못 재 높이가 0으로 굳는다.
 // 폭이 잡혔는데 높이가 0이면 다시 계산한다(초기 몇 초간 확인 + 리사이즈 감지).

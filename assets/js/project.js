@@ -22,6 +22,23 @@
     applyThemeLabel();
   }
 
+  /* ---------- 모바일 메뉴 ---------- */
+  var menuToggle = document.getElementById("menuToggle");
+  var siteNav = document.getElementById("siteNav");
+  if (menuToggle && siteNav) {
+    var setMenu = function (open) {
+      siteNav.classList.toggle("open", open);
+      menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      menuToggle.textContent = open ? "닫기" : "메뉴";
+    };
+    menuToggle.addEventListener("click", function () {
+      setMenu(!siteNav.classList.contains("open"));
+    });
+    siteNav.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { setMenu(false); });
+    });
+  }
+
   /* ---------- 프로젝트 찾기 ---------- */
   var publicProjects = PROJECTS.filter(function (p) { return p.visibility === "public"; });
   var slug = new URLSearchParams(location.search).get("slug");
@@ -80,9 +97,21 @@
 
   /* 썸네일: 스크린샷(image)이 있으면 이미지, 없으면 아이콘 */
   var thumbEl = document.getElementById("pThumb");
+  // 대표 이미지와 같은 사진은 갤러리에서 빼고, 그 설명을 대표 이미지 아래에 붙임
+  var heroShot = null;
+  if (p.image && d.gallery) {
+    d.gallery.forEach(function (g) { if (g.src === p.image) heroShot = g; });
+    d.gallery = d.gallery.filter(function (g) { return g.src !== p.image; });
+  }
   if (p.image && thumbEl) {
     thumbEl.classList.add("has-img");
     thumbEl.innerHTML = '<img src="' + p.image + '" alt="' + p.title + ' 대표 화면" />';
+    if (heroShot && heroShot.caption) {
+      var cap = document.createElement("p");
+      cap.className = "thumb-cap";
+      cap.textContent = heroShot.caption;
+      thumbEl.parentNode.insertBefore(cap, thumbEl.nextSibling);
+    }
   } else {
     var iconEl = document.getElementById("pIcon");
     if (iconEl && typeof ICONS !== "undefined" && ICONS[p.icon]) iconEl.innerHTML = ICONS[p.icon];

@@ -62,8 +62,8 @@ const ICONS = {
 
 const SITE = {
   name: "이재중",
-  tagline: "사람이 할 일에, 사람이 집중할 수 있도록.",
-  subTagline: "반복되는 일은 자동화로 덜고, 현장에 필요한 서비스를 직접 만들어 운영합니다.",
+  tagline: "우리가 사회복지를 하는 이유는 사람을 만나기 위해서입니다.",
+  subTagline: "사회복지를 더 본질적으로, 더 잘하기 위해 변할 때입니다. 반복되는 일은 덜고, 사람을 만나는 시간을 늘리는 도구를 직접 만들어 운영합니다.",
   fields: ["디지털 전환", "서비스 기획", "AI 활용", "운영 자동화"],
   // 이메일은 스팸 수집 방지를 위해 분리 보관 후 JS로 조립
   emailUser: "client_first",
@@ -602,7 +602,7 @@ const PROJECTS = [
       result:
         "사업 운영 업무를 하나의 웹으로 통합했고, 2026년 8월부터 60여 명의 사용자가 실제 사업 업무에 쓰고 있습니다. 배분기관도 관리자와 같은 화면에서 증명서를 확인합니다.",
       alternatives:
-        "자가진단은 문항 수를 유지하면서 여러 단계로 나눠 보여주는 방법도 검토했습니다. 다만 화면을 나누는 것보다 응답할 항목 자체를 줄이는 편이 참여에 더 직접적이라 판단해 9문항으로 정리했습니다. 업무별로 설문 도구·예약 도구·정산 시트를 따로 쓰는 방법도 가능했지만, 결국 데이터가 다시 흩어지는 문제가 반복될 것 같아 한 시스템으로 모았습니다. 지원 신청서는 모두 웹 입력 화면으로 바꾸는 대신, 기관이 쓰던 워드 양식은 그대로 두고 화면은 진행 상황을 확인하는 용도로 나눴습니다.",
+        "자가진단은 문항 수를 유지하면서 여러 단계로 나눠 보여주는 방법도 검토했습니다. 다만 화면을 나누는 것보다 응답할 항목 자체를 줄이는 편이 참여에 더 직접적이라 판단해 9문항으로 정리했습니다. 업무별로 설문 도구·예약 도구·정산 시트를 따로 쓰는 방법도 가능했지만, 결국 데이터가 다시 흩어지는 문제가 반복될 것 같아 한 시스템으로 모았습니다. 지원 신청서는 모두 웹 입력 화면으로 바꾸는 대신, 기관이 쓰던 워드 양식은 그대로 두고 화면은 진행 상황을 확인하는 용도로 나눴습니다. 전자서명은 처음에 외부 전자서명 서비스(eformsign)를 붙였지만, 이용 비용이 부담이 되어 협회 계약서 양식에 맞춘 자체 서명 기능으로 바꿨습니다.",
       nextTime:
         "기능을 더 붙이기 전에, 실제 사용자가 어느 화면에서 멈추는지 먼저 확인하려 합니다. 이번에는 필요해 보이는 기능을 먼저 만들고 나중에 단순화했는데, 순서를 바꾸면 만들지 않아도 될 기능을 미리 걸러낼 수 있을 것 같습니다.",
       stack:
@@ -740,10 +740,12 @@ const PROJECTS = [
     slug: "smartwork-program",
     no: "16",
     icon: "sprout",
+    image: "assets/img/manual-briefing.jpg",
     title: "열매똑똑 스마트워크 사업 운영",
     summary: "사회복지 현장의 디지털 전환 3개년 사업을 담당자로서 운영 — 참여기관 모집·심사부터 맞춤형 컨설팅, 성과 확산까지",
     links: [
-      { label: "언론 인터뷰 (웰페어이슈)", url: "http://www.welfareissue.com/news/articleView.html?idxno=15285" },
+      { label: "3차년도 사업설명회 영상", url: "https://www.youtube.com/watch?v=zg2N22GUVvw" },
+      { label: "언론 인터뷰 (웰페어이슈)", url: "http://www.welfareissue.com/news/articleView.html?idxno=15285", type: "repo" },
       { label: "1차년도 성과자료집", url: "https://sasw.or.kr/notice/870882", type: "repo" },
       { label: "사업 안내 사이트", url: "https://sites.google.com/sasw.or.kr/smart-work002", type: "repo" },
     ],
@@ -1024,7 +1026,86 @@ const AI_FLOW = [
   { step: "문제 발견", tool: "현장 경험", human: "무엇이 문제인지 정의" },
   { step: "탐색·비교", tool: "Gemini · GPT · Claude", human: "답변을 교차 확인" },
   { step: "구조화", tool: "OpenAI Codex", human: "요구사항과 PRD 확정" },
-  { step: "제작", tool: "Claude Code · Codex · Antigravity", human: "결과 검증과 수정 판단" },
-  { step: "업무 연결", tool: "AppSheet · Apps Script · Power Automate", human: "실제 업무 흐름에 맞게 조정" },
+  { step: "AI 쓸 곳 가르기", tool: "규칙 기반 계산 · AI 모델", human: "사실 전달·판정은 AI 없이, 글쓰기·변환에만 AI" },
+  { step: "제작", tool: "Claude Code · Codex · Antigravity · ChatGPT Sites", human: "결과 검증과 수정 판단" },
+  { step: "업무 연결", tool: "AppSheet · Apps Script · Power Automate · Teams 에이전트(Claude API)", human: "실제 업무 흐름에 맞추고, 입력 정보가 어디로 가는지 확인" },
   { step: "확인·운영", tool: "Looker Studio", human: "최종 검증과 운영 책임" },
+];
+
+/* =========================================================
+   현장 기록 — 영상·인터뷰, 활동 기록
+   - MEDIA: 직접 발표하거나 인터뷰한 영상·기사 (새 영상은 여기에 한 줄 추가)
+   - ACTIVITY: 협회 활동브리핑에 직접 작성한 열매똑똑 Smart work 기록
+     (사진은 협회 게시글 원본, 사람 이름은 싣지 않음)
+   ========================================================= */
+const MEDIA = [
+  {
+    type: "영상",
+    title: "열매똑똑 Smart work 3차년도 사업설명회",
+    desc: "3차년도 사업 안내와 신청 방법, 매뉴얼 활용법을 발표했습니다.",
+    source: "서울사회복지사 유튜브",
+    date: "2026.06.16",
+    length: "52분",
+    url: "https://www.youtube.com/watch?v=zg2N22GUVvw",
+    thumb: "assets/img/record/yt-zg2N22GUVvw.jpg",
+  },
+  {
+    type: "영상",
+    title: "열매똑똑 Smart Work 2차년도 성과공유회",
+    desc: "2차년도 성과보고를 발표했습니다. 참여기관 사례 발표와 해커톤 결과물 발표·시상이 함께 진행됐습니다.",
+    source: "서울사회복지사 유튜브",
+    date: "2026.04.29",
+    length: "4시간 35분",
+    url: "https://www.youtube.com/watch?v=QN7K1fK5erQ",
+    start: 1293,
+    startLabel: "성과보고 00:21:33부터",
+    thumb: "assets/img/record/yt-QN7K1fK5erQ.jpg",
+  },
+  {
+    type: "영상",
+    title: "열매똑똑 Smart Work 2차년도 사업설명회",
+    desc: "2차년도 참여기관 모집을 앞두고 사업 내용과 참여 방법을 안내했습니다.",
+    source: "서울사회복지사 유튜브",
+    date: "2025.06.09",
+    length: "2시간 28분",
+    url: "https://www.youtube.com/watch?v=Rh2QPqPxWAU",
+    thumb: "assets/img/record/yt-Rh2QPqPxWAU.jpg",
+  },
+  {
+    type: "영상",
+    title: "디지털전환, 우리도 할 수 있어 : 똑똑 Smart work 1차년도 성과공유회",
+    desc: "1차년도 사업 성과보고와 행사 마무리를 맡았습니다.",
+    source: "서울사회복지사 유튜브",
+    date: "2025.05.13",
+    length: "3시간 28분",
+    url: "https://www.youtube.com/watch?v=8y5mCyu3ZOA",
+    start: 2652,
+    startLabel: "성과보고 00:44:12부터",
+    thumb: "assets/img/record/yt-8y5mCyu3ZOA.jpg",
+  },
+  {
+    type: "인터뷰",
+    title: "사회복지 현장의 디지털 전환 향한 두드림, ‘사회복지사 의미 되찾는 사업’",
+    desc: "행정을 줄여 ‘사람을 만나는 사회복지사로 돌아가기’를 이야기한 사업 담당자 인터뷰입니다.",
+    source: "웰페어이슈",
+    date: "2025.06.19",
+    url: "http://www.welfareissue.com/news/articleView.html?idxno=15285",
+  },
+];
+
+const ACTIVITY = [
+  { date: "2026.08.19", id: "959573", title: "관리자 트레이닝 3·4회기", desc: "참여기관 사례발표와 함께, AI 시대에 사회복지현장이 바꿀 것과 지킬 것을 다뤘습니다." },
+  { date: "2026.08.11", id: "958211", title: "관리자 트레이닝 1·2회기", desc: "디지털 전환 기조강연과 AI 워크숍으로 최고관리자의 역할을 함께 고민했습니다." },
+  { date: "2026.08.06", id: "957297", title: "강사양성 워크숍", desc: "기초과정을 맡을 현장 강사를 12시간 과정으로 양성했습니다." },
+  { date: "2026.08.01", id: "956491", title: "3차년도 참여기관 협약식", desc: "참여기관과 3차년도 추진 방향을 공유하고 협약을 맺었습니다." },
+  { date: "2025.12.19", id: "908534", title: "지원기관 담당자 중간점검", desc: "2차년도 참여기관 20곳이 추진 현황을 직접 발표하고 서로 피드백했습니다." },
+  { date: "2025.12.11", id: "905934", title: "오픈 캠퍼스 — Lovable 앱 개발 워크숍", desc: "현장의 문제를 사회복지사가 직접 도구로 만들어 보는 4시간 실습입니다." },
+  { date: "2025.11.26", id: "901473", title: "오픈 캠퍼스 — 앱 개발 워크숍", desc: "사회복지사 약 70명과 AppSheet·바이브코딩을 이틀간 실습했습니다." },
+  { date: "2025.10.30", id: "895635", title: "네트워킹 캠퍼스", desc: "참여기관 실무자들이 1박 2일 동안 직접 앱을 만들고 피드백을 나눴습니다." },
+  { date: "2025.07.17", id: "879179", title: "2차년도 참여기관 협약식", desc: "20개 참여기관 최고관리자와 협약을 맺고 관리자 트레이닝을 시작했습니다." },
+  { date: "2025.04.30", id: "865418", title: "분야별 사례발표 — 디지털 전환, 한 걸음 더 (2·3일차)", desc: "거주·직업훈련시설과 소규모 노인복지관의 디지털 전환 사례를 나눴습니다." },
+  { date: "2025.04.24", id: "864467", title: "분야별 사례발표 — 디지털 전환, 한 걸음 더 (1일차)", desc: "실무자 50여 명과 종합·노인·장애인복지관의 사례를 나눴습니다." },
+  { date: "2025.02.07", id: "791393", title: "구글워크스페이스 지원기관 담당자 교육", desc: "구글워크스페이스를 도입한 13개 기관 담당자와 전환 목표를 구체화했습니다." },
+  { date: "2025.02.03", id: "789842", title: "M365 지원기관 담당자 교육", desc: "M365를 도입한 7개 기관이 현재와 목표(As-is·To-be)를 발표했습니다." },
+  { date: "2024.08.16", id: "760018", title: "똑똑 Smart work 컨소시엄 협약식", desc: "협력기관들과 사회복지현장 디지털 전환을 함께 지원하기로 협약했습니다." },
 ];
