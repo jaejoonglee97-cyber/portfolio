@@ -86,6 +86,9 @@
   } else {
     var iconEl = document.getElementById("pIcon");
     if (iconEl && typeof ICONS !== "undefined" && ICONS[p.icon]) iconEl.innerHTML = ICONS[p.icon];
+    // 화면이 없는 프로젝트(Teams 에이전트 등)는 안내 문구를 바꿈
+    var noteEl = document.getElementById("pThumbNote");
+    if (noteEl && p.thumbNote) noteEl.textContent = p.thumbNote;
   }
 
   /* ---------- 메타 표 ---------- */

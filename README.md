@@ -50,7 +50,8 @@ python -m http.server 8000
   - [x] 출석 시스템 / Teams 학습 / 맛집 실험 — 캡처 완료 (`assets/img/`, 개인정보 없는 화면만)
   - [ ] 열매똑똑 신청·심사 / 해커톤 / 매뉴얼 / 런게임 / AI블로그 / 한글캐치 — 소스·라이브 URL 확인 후 캡처 필요
   - 사용법: `data.js` 프로젝트에 `image: "assets/img/파일.png"` (카드+상세 대표) 또는 `gallery: [{src, caption}]` (상세 여러 장) 추가
-- [ ] 이력서 PDF 추가 후 히어로 버튼 활성화 (`index.html`의 `aria-disabled` 버튼)
+- [x] 이력서 PDF — 두지 않기로 결정 (2026-09-28, 히어로 버튼 제거)
+- 화면 없는 프로젝트(Teams 에이전트 등)는 `data.js`에 `thumbNote`로 대표 화면 자리 안내 문구 지정
 - [ ] 이메일 공개 여부 최종 확인 (`data.js`의 `emailUser`/`emailDomain`)
 - [ ] 참여기관 수·심사 건수 등 공개 가능한 정량 성과 확인 후 `data.js` 상세에 반영
 - [x] OG 대표 이미지 (`assets/og-image.png`) + 파비콘 (`assets/favicon.svg`) — 배포 후 og:image를 절대 URL로 변경
