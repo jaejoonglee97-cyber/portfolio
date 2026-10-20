@@ -56,6 +56,8 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4" width="6" height="5" rx="1.2"/><rect x="14.5" y="4" width="6" height="5" rx="1.2"/><rect x="9" y="15" width="6" height="5" rx="1.2"/><path d="M6.5 9v2.5h11V9"/><path d="M12 11.5V15"/></svg>',
   calc:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3.5" rx="0.8"/><path d="M8.5 13h1M12 13h1M15 13h.5M8.5 16.5h1M12 16.5h1M15 16.5h.5"/></svg>',
+  mail:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></svg>',
   chart:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg>',
 };
@@ -68,7 +70,7 @@ const SITE = {
   // 이메일은 스팸 수집 방지를 위해 분리 보관 후 JS로 조립
   emailUser: "client_first",
   emailDomain: "naver.com",
-  updated: "2026-09-28",
+  updated: "2026-10-20",
 };
 
 const PROJECTS = [
@@ -82,7 +84,7 @@ const PROJECTS = [
     links: [{ label: "라이브 보기", url: "https://3rd-apply.vercel.app/" }],
     period: "2026.06 – 2026.07",
     status: "운영 완료",
-    tier: "featured",
+    tier: "major",
     category: ["운영 시스템", "디지털 전환"],
     role: ["기획", "개발", "운영"],
     tags: ["신청 시스템", "심사 평가", "PDF", "관리자 화면"],
@@ -136,7 +138,7 @@ const PROJECTS = [
     links: [{ label: "라이브 보기", url: "https://hackathon.sasw.or.kr/" }],
     period: "2026",
     status: "운영 완료",
-    tier: "featured",
+    tier: "major",
     category: ["참여형 경험", "운영 시스템"],
     role: ["기획", "개발", "운영"],
     tags: ["행사 플랫폼", "협업 보드", "심사", "아카이브"],
@@ -184,7 +186,7 @@ const PROJECTS = [
     links: [{ label: "라이브 보기", url: "https://howtousemanual.vercel.app/" }],
     period: "2026",
     status: "완료",
-    tier: "featured",
+    tier: "major",
     category: ["디지털 전환"],
     role: ["기획", "개발"],
     tags: ["자가진단", "매뉴얼", "PDF"],
@@ -564,16 +566,18 @@ const PROJECTS = [
     links: [{ label: "바로가기", url: "https://data-center-teal-chi.vercel.app/" }],
     period: "2026.03 –",
     status: "운영",
-    tier: "major",
+    tier: "featured",
+    featuredRank: 2,
     category: ["운영 시스템", "디지털 전환"],
     role: ["기획", "개발", "운영"],
     tags: ["업무 통합", "교육 평가", "현장 모니터링", "전자서명", "정산·증빙"],
     ai: ["Groq"],
-    featuredStory: "여러 도구에 흩어진 사업 운영 업무를 하나의 웹으로 통합했습니다.",
+    featuredStory: "흩어져 있던 사업 운영 업무를 하나의 웹으로 모았고, 2026년 8월부터 60여 명이 실제 사업 업무에 쓰는 지금도 직접 운영하며 고치고 있습니다.",
     visibility: "public",
     metrics: [
       { value: "60여 명", label: "실제 사용자" },
-      { value: "9문항", label: "기관 자가진단(사전 컨설팅)" },
+      { value: "4주체", label: "관리자·기관·강사·배분기관이 함께 사용" },
+      { value: "2026.08 –", label: "실사용 운영" },
     ],
     detail: {
       problem:
@@ -741,6 +745,7 @@ const PROJECTS = [
     no: "16",
     icon: "sprout",
     image: "assets/img/manual-briefing.jpg",
+    cardImage: "assets/img/record/956491.jpg",
     title: "열매똑똑 스마트워크 사업 운영",
     summary: "사회복지 현장의 디지털 전환 3개년 사업을 담당자로서 운영 — 참여기관 모집·심사부터 맞춤형 컨설팅, 성과 확산까지",
     links: [
@@ -752,17 +757,18 @@ const PROJECTS = [
     period: "2024.07 –",
     status: "운영",
     tier: "featured",
+    featuredRank: 1,
     category: ["사업 운영", "디지털 전환"],
     role: ["기획", "운영"],
     tags: ["사업 기획·운영", "참여기관 심사", "컨설팅 운영", "성과 확산"],
     ai: [],
     featuredStory:
-      "이 사업의 담당자로 일하며, 신청·심사 시스템과 매뉴얼 웹서비스, 해커톤 허브를 직접 만들었습니다.",
+      'Smart work 3개년 사업 담당자로 일하며, 사업에 필요한 <a href="project.html?slug=yeolmae-apply">신청·심사 시스템</a>, <a href="project.html?slug=smartwork-manual">매뉴얼 웹서비스</a>, <a href="project.html?slug=yeolmae-hackathon">해커톤 허브</a>를 직접 만들었습니다.',
     visibility: "public",
     metrics: [
-      { value: "112개", label: "1차년도 신청 기관" },
-      { value: "19개", label: "1차년도 참여 기관" },
-      { value: "50시간", label: "기관당 평균 컨설팅" },
+      { value: "3개년", label: "사업 담당 · 2024.07 –" },
+      { value: "112·96·69곳", label: "1·2·3차년도 신청 기관" },
+      { value: "19·20·23곳", label: "참여 기관 (3차년도는 선정)" },
     ],
     detail: {
       problem:
@@ -783,7 +789,7 @@ const PROJECTS = [
       trial:
         "운영에서 가장 중요한 조건은 강사 확보였습니다. 스마트워크나 AI를 잘 아는 것보다, 사회복지 현장을 이해하고 사회복지사의 눈높이로 설명할 수 있는지가 만족도를 갈랐습니다. 언론 인터뷰에서도 이 점을 이렇게 말했습니다 — “기술은 어디서든 배울 수 있지만, 그 기술을 현장에 맞게 풀어내는 건 또 다른 역량이기 때문이다.”",
       result:
-        "1차년도에 19개 기관이 클라우드 협업 도입, 종이 없는 사무실, 조직문화 변화 같은 변화를 만들었습니다. 사례를 발표한 실무자가 협회 보수교육 강사로 이어져, 변화가 한 기관에 머물지 않고 다른 기관으로 전달됐습니다. 사업은 2차년도 ‘열매똑똑 스마트워크’와 3차년도로 이어졌고, 이 과정은 웰페어이슈 인터뷰로 외부에 기록됐습니다.",
+        "1차년도에 19개 기관이 클라우드 협업 도입, 종이 없는 사무실, 조직문화 변화 같은 변화를 만들었습니다. 사례를 발표한 실무자가 협회 보수교육 강사로 이어져, 변화가 한 기관에 머물지 않고 다른 기관으로 전달됐습니다. 사업은 2차년도(96곳 신청, 20곳 참여)와 3차년도(69곳 신청, 23곳 선정)로 이어졌고, 이 과정은 웰페어이슈 인터뷰로 외부에 기록됐습니다.",
       alternatives:
         "여러 기관을 한자리에 모아 집합 교육으로 진행하면 품이 훨씬 적게 듭니다. 다만 기관마다 구조와 준비도가 달라 같은 교육이 같은 결과로 이어지지 않았습니다. 그래서 강사가 기관을 찾아가는 맞춤 컨설팅을 택했고, 대신 강사 확보와 일정 조율에 운영 부담이 집중됐습니다.",
       nextTime:
@@ -889,6 +895,7 @@ const PROJECTS = [
     period: "2026.08 –",
     status: "운영",
     tier: "featured",
+    featuredRank: 3,
     category: ["디지털 전환", "운영 시스템"],
     role: ["기획", "개발"],
     tags: ["자가진단", "맞춤 커리큘럼", "오픈소스", "에이전트 스킬", "SOVAC 전시"],
@@ -983,40 +990,182 @@ const PROJECTS = [
     no: "21",
     icon: "chart",
     image: "assets/img/license-statistics.png",
-    title: "서울 사회복지사 통계 대시보드",
-    summary: "2023년부터의 서울·전국 사회복지사 자격증 발급 통계를 한눈에 보여 주는 대시보드",
-    links: [{ label: "라이브 보기", url: "https://sasw-license-statistics.workspace-841411.chatgpt.site/" }],
-    period: "2026.09",
+    title: "사회복지사 자격증 발급현황 대시보드",
+    summary: "서울 사회복지사 자격증·회원증 발급현황을 전년 같은 기간과 비교해 보여 주고, 회의에 바로 쓰는 A4 한 장 보고서로 뽑아 주는 대시보드",
+    links: [{ label: "라이브 보기", url: "https://sasw-statistics-restored.sasw-4929.chatgpt.site/" }],
+    period: "2026.09 –",
     status: "AI 실험",
     tier: "experiment",
     category: ["AI 실험", "디지털 전환"],
     role: ["기획", "제작"],
-    tags: ["통계", "대시보드", "데이터 시각화"],
+    tags: ["통계", "대시보드", "보고서 자동화"],
     ai: ["ChatGPT Sites"],
     featuredStory: null,
     visibility: "public",
     detail: {
       problem:
-        "사회복지사 자격증 발급현황은 표 형태의 자료로 나와서, 서울이 전국에서 어느 정도인지, 해마다 어떻게 달라지는지를 보려면 숫자를 직접 옮겨 비교해야 했습니다.",
-      users: "서울 사회복지사 현황이 궁금한 회원과 협회 담당자",
+        "사회복지사 자격증 발급현황은 표 형태의 자료로 나와서, 서울이 전국에서 어느 정도인지, 지난해 같은 때보다 늘었는지를 보려면 숫자를 직접 옮겨 비교해야 했습니다. 회의 자료로 쓰려면 그 결과를 다시 문서로 정리하는 일도 따로 필요했습니다.",
+      users: "서울 사회복지사 현황이 궁금한 회원, 발급 통계를 보고하는 협회 담당자",
       roles: "보여 줄 지표 선정과 화면 기획, 제작을 맡았습니다.",
       features: [
-        "핵심 지표 — 서울 발급 건수, 전국 대비 비중과 순위, 총 누적 발급, 회원증 발급",
-        "연도별 발급 추이와 등급별 구성",
-        "17개 시도 비교",
-        "월별 기준 선택과 당해 연도·총 누적 전환",
-        "그래프마다 '표로 보기', 이미지 저장과 원본 PDF",
+        "핵심 지표 — 자격증 발급, 회원증 발급, 전국 대비 비중과 순위, 총 누적 발급",
+        "전년 같은 기간·전년 말과 비교한 증감",
+        "숫자를 자동으로 풀어 쓴 '세 문장으로 읽는 변화'",
+        "회원증 발급·자격증 재발급의 월별 추이와 지역별 비교",
+        "제목·월별 항목·담당자 메모를 넣어 A4 한 장 보고서로 PDF 저장",
+        "기존 상세 통계(연도별·전국 비교·원본 자료실)는 '전체 자료 살펴보기'로 연결",
       ],
       process:
-        "새로 나온 ChatGPT Sites 기능으로 만들어 본 대시보드입니다. 숫자를 나열하기보다 '전국 발급 약 6건 중 1건은 서울'처럼 한 문장으로 읽히는 설명을 함께 두었습니다.",
+        "ChatGPT Sites 기능으로 만든 대시보드입니다. 처음에는 서울 중심의 통계 화면이었고, 이후 '현황과 변화 · 지역별 비교 · 한 장 보고서' 세 화면으로 다시 구성했습니다. 기존 상세 통계 화면은 지우지 않고 아래쪽에 이어 두었습니다.",
       trial:
-        "아직 한 해가 끝나지 않은 연도의 누계를 지난 연도의 연간 자료와 나란히 두면 발급이 줄어든 것처럼 보입니다. 그래서 진행 중인 연도는 옅은 색으로 구분하고, 집계 기간을 화면에 따로 안내했습니다.",
-      result: "흩어진 발급 통계를 서울 중심으로 한 화면에서 살펴볼 수 있게 했습니다.",
+        "아직 한 해가 끝나지 않은 연도의 누계를 지난해 연간 자료와 나란히 두면 발급이 줄어든 것처럼 보입니다. 그래서 같은 기간끼리만 비교하고, 비교할 같은 기간 자료가 없으면 '같은 기간 비교 자료 없음'으로 표시했습니다. 발급 건수가 지금 일하는 사회복지사 수로 오해되지 않도록, 두 숫자가 다르다는 안내도 함께 두었습니다.",
+      result: "발급 통계를 서울 중심으로 한 화면에서 살펴보고, 같은 내용을 회의용 한 장 보고서로 바로 뽑을 수 있게 했습니다.",
       stack: "ChatGPT Sites(제작·배포)",
       gallery: [
-        { src: "assets/img/license-statistics.png", caption: "한눈에 보기 — 서울 자격증 발급, 전국 비중, 누적 발급, 회원증 발급 (2026.08.31 기준)" },
+        { src: "assets/img/license-statistics.png", caption: "현황과 변화 — 자격증·회원증 발급, 전국 비중, 누적 발급과 세 문장 요약 (2026.09.30 기준)" },
+        { src: "assets/img/license-statistics-report.png", caption: "한 장 보고서 — 제목·월별 항목·메모를 넣고 A4로 미리 본 뒤 PDF 저장" },
+        { src: "assets/img/license-statistics-regions.png", caption: "상세 통계 · 전국 비교 — 17개 시도 발급 순위와 두 지역 등급별 비교" },
       ],
-      note: "출처: 한국사회복지사협회 자격증 발급현황 (2026.08.31 기준).",
+      note: "출처: 한국사회복지사협회 자격증 발급현황 (2026.09.30 기준). 자격증 발급 건수는 현재 근무 중인 사회복지사 수와 다릅니다.",
+    },
+  },
+  {
+    slug: "claude-manual",
+    no: "22",
+    icon: "gradcap",
+    image: "assets/img/claude-manual.png",
+    title: "서사협 클로드 사용 매뉴얼",
+    summary: "코딩을 몰라도 10개 미션을 하나씩 깨며 클로드로 홍보 문자·안내 웹페이지·포스터·엑셀 집계를 직접 만들어 보는 실습형 매뉴얼",
+    links: [
+      { label: "라이브 보기", url: "https://claude-manual.vercel.app/" },
+      { label: "GitHub 저장소", url: "https://github.com/jaejoonglee97-cyber/claude-manual", type: "repo" },
+    ],
+    period: "2026.10",
+    status: "공개",
+    tier: "major",
+    category: ["디지털 전환", "참여형 경험"],
+    role: ["기획", "제작"],
+    tags: ["AI 교육", "실습 매뉴얼", "미션형 학습"],
+    ai: ["Claude Code"],
+    featuredStory: null,
+    visibility: "public",
+    detail: {
+      problem:
+        "클로드 기능을 설명하는 자료는 많지만, 코딩을 모르는 사회복지사가 실제 업무 결과물을 직접 만들어 보는 데까지 이어 주는 자료는 부족했습니다.",
+      users: "협회 안에서 클로드 유료 요금제를 쓰지만 어떻게 활용할지 막막했던 사용자, 코딩 경험이 없는 사회복지사",
+      roles: "미션 구성과 요청문 설계, 웹페이지 제작을 맡았습니다.",
+      features: [
+        "1층 채팅(미션 0~2) → 2층 아티팩트·디자인(3~5) → 3층 Claude Code(6~9)로 한 층씩 올라가는 10개 미션",
+        "미션마다 복사해서 바로 쓰는 요청문, 확인 체크리스트, OX 퀴즈, 막혔을 때 보는 도움말",
+        "홍보 문자, 감사 편지, 안내 웹페이지, 미니 게임, 포스터, 엑셀 집계 보고서 등 미션마다 작품 하나씩",
+        "레벨·경험치·배지와 용어 도감으로 진행 상황 표시",
+        "진행 상황은 보는 사람의 브라우저에만 저장 — 가입도 서버도 없음",
+      ],
+      process:
+        "화면과 요금제 내용은 2026년 10월 기준 공식 문서(claude.com, support.claude.com, code.claude.com)를 확인해 맞췄습니다. 파일 하나(index.html)로 동작하게 만들어 링크로 열거나 내려받아 바로 쓸 수 있습니다.",
+      trial:
+        "첫 미션을 '안전 약속'으로 두어, 실제 이용자의 이름·연락처·상담 내용은 넣지 않고 가짜 정보로 연습하기로 약속하고 시작하게 했습니다. 요청문 예시도 모두 ○○복지관, 참가자01 같은 가짜 정보로 만들었습니다. 미리보기 창에서 미션 버튼이 동작하지 않던 문제는 공개 당일 고쳤습니다.",
+      result: "협회 안의 클로드 유료 사용자들에게 공유했고, 요금제는 쓰고 있지만 무엇부터 해야 할지 막막했던 분들이 실제로 따라 하며 시작하는 데 많은 도움이 됐습니다.",
+      alternatives:
+        "기능을 하나씩 설명하는 문서나 영상 강의로 만들 수도 있었습니다. 다만 읽거나 보는 것만으로는 직접 써 보는 데까지 이어지기 어려워, 요청문을 복사해 결과물을 만들고 \"더 크게\", \"더 쉽게\"처럼 말로 고쳐 보는 미션 방식을 택했습니다.",
+      nextTime:
+        "클로드의 화면과 요금제는 계속 바뀝니다. 언제 기준으로 썼는지 밝혀 두었지만, 정기적으로 다시 확인하는 일정을 처음부터 정해 두려 합니다.",
+      stack: "HTML·CSS·JavaScript 단일 파일, 브라우저 저장소(localStorage) / Claude Code(구현)",
+      gallery: [
+        { src: "assets/img/claude-manual.png", caption: "첫 화면 — 요청문 복사, 붙여넣기, 말로 고치기의 3단계" },
+        { src: "assets/img/claude-manual-missions.png", caption: "미션마다 만드는 작품 10가지 — 채팅, 아티팩트·디자인, Claude Code 순서" },
+      ],
+      note: "요청문 예시는 모두 가짜 정보로 만들었습니다.",
+    },
+  },
+  {
+    slug: "webzine-editor",
+    no: "23",
+    icon: "mail",
+    image: "assets/img/webzine-editor.jpg",
+    title: "서사협 웹진 편집기",
+    summary: "웹진 이미지를 올리면 Gemini가 링크 영역을 찾고, 협회 홈페이지에서 수집한 게시물 주소를 자동으로 연결해 웹·이메일용 HTML을 만드는 도구",
+    links: [{ label: "GitHub 저장소", url: "https://github.com/jaejoonglee97-cyber/webzine", type: "repo" }],
+    period: "2026.10 –",
+    status: "운영",
+    tier: "major",
+    category: ["운영 시스템", "디지털 전환"],
+    role: ["기획", "개발"],
+    tags: ["업무 자동화", "이미지 분석", "링크 자동 연결", "이메일 HTML"],
+    ai: ["Gemini", "Claude Code"],
+    featuredStory: null,
+    visibility: "public",
+    detail: {
+      problem:
+        "정기 웹진을 보낼 때마다 Expression Web 4에서 이미지 위 클릭 영역을 하나씩 지정하고, 게시물 주소를 찾아 넣고, HTML을 직접 작성해야 했습니다.",
+      users: "웹진을 만드는 협회 담당자, 웹진을 받아 보는 회원",
+      roles: "기획과 개발을 맡았습니다.",
+      features: [
+        "3단계 — 이미지 올리기 → 주황색(확인 필요) 링크만 확인 → HTML 저장",
+        "Gemini가 제목·버튼·SNS 영역을 찾고, 매달 같은 자리의 메뉴·SNS 영역은 지난 호에서 가져오기",
+        "협회 홈페이지 게시판과 탐서클 강좌를 수집해 제목으로 게시물 자동 연결",
+        "신청 버튼은 공지 글 본문에서 신청 주소를 찾아 추천",
+        "저장할 때 연결한 링크가 실제로 열리는지 자동 확인",
+        "웹 열람용·타스온 이메일용 HTML, 웹진 주소와 지난 웹진 모아보기 페이지",
+      ],
+      process:
+        "망고보드·미리캔버스로 디자인한 이미지를 그대로 받아, 분석과 게시물 조회, 링크 연결이 보통 1분 안에 끝나도록 만들었습니다. 이메일용 HTML은 타스온 제작 가이드(표 배치, EUC-KR 발송, 이미지 용량 기준)에 맞췄습니다.",
+      trial:
+        "협회 홈페이지가 클라우드 서버의 접속을 막아(403) 게시물을 수집하지 못하는 문제가 있었습니다. 그래서 담당자 브라우저로 게시판 목록을 읽어 오는 즐겨찾기 버튼(수집 도우미)을 만들었습니다. Gemini 사용량 제한(429)이 자주 걸려, 잠시 쉬었다 이어 보내고 예비 모델로 넘어가는 처리도 넣었습니다. 로그인 기능은 담당자 요청으로 뺐습니다.",
+      result: "실제 웹진 발송에 쓰기 시작했습니다. Expression Web 4에서 하던 클릭 영역 지정과 주소 입력, HTML 작성을 이미지 업로드와 링크 확인 두 단계로 줄였습니다.",
+      alternatives:
+        "AI가 이미지 속 문구를 보고 주소까지 직접 쓰게 하면 손은 덜 가지만, 없는 주소를 만들어 낼 위험이 있습니다. 그래서 연결 주소는 등록된 고정 링크, 실제로 수집한 게시물, 담당자가 입력한 주소에서만 나오게 했습니다. 제목이 거의 같고 후보가 하나뿐일 때만 자동으로 연결하고, AI의 판단은 'AI 추천' 표시로만 보여 줍니다.",
+      nextTime:
+        "실제 웹진 5호 이상의 정답 링크로 영역 인식과 자동 연결 정확도를 재고 기준을 조정하는 일이 남아 있습니다. 담당자 1~2명이 쓰는 기준이라 두 사람이 동시에 고치면 나중 저장만 남는 한계도 있어, 쓰는 사람이 늘면 저장 방식부터 바꿔야 합니다.",
+      stack: "Node.js(Express 5), SQLite, sharp(이미지 조각), cheerio(게시판 수집), Vercel Blob / Gemini(영역 분석), Claude Code(구현)",
+      gallery: [
+        { src: "assets/img/webzine-editor.jpg", caption: "편집 화면(시연 모드) — 주황색 확인 필요 링크만 오른쪽 카드로 모아, 후보 글 중 하나를 고르게 함" },
+        { src: "assets/img/webzine-dashboard.png", caption: "대시보드 — 이미지 올리기, 확인할 링크 수, 게시판별 수집 현황" },
+      ],
+      note: "화면은 시연 모드(공개된 정기웹진 415호 샘플)로 캡처했습니다. 협회 내부 업무 도구라 사용 주소는 공개하지 않습니다.",
+    },
+  },
+  {
+    slug: "grace-cookie",
+    no: "24",
+    icon: "sprout",
+    image: "assets/img/grace-cookie.png",
+    title: "오늘의 묵상쿠키 — Gemini Argon 테스트",
+    summary: "새로 나온 Gemini Argon의 앱 제작 능력을 시험해 보려고 만든 웹앱. 포춘쿠키를 깨뜨려 그날의 말씀과 묵상을 열어 보고, 카드 이미지나 선물 링크로 나눌 수 있게 했습니다",
+    links: [
+      { label: "라이브 보기", url: "https://grace-cookie.vercel.app/" },
+      { label: "GitHub 저장소", url: "https://github.com/jaejoonglee97-cyber/grace-cookie", type: "repo" },
+    ],
+    period: "2026.10",
+    status: "AI 실험",
+    tier: "experiment",
+    category: ["AI 실험", "아이디어·R&D"],
+    role: ["기획"],
+    tags: ["AI 모델 테스트", "인터랙션", "모바일 웹앱"],
+    ai: ["Gemini Argon"],
+    featuredStory: null,
+    visibility: "public",
+    detail: {
+      problem:
+        "새로 나온 Gemini Argon이 기획서 한 장으로 어디까지 완성도 있는 앱을 만들어 내는지 직접 확인해 보고 싶었습니다. 글만 오가는 시험보다, 움직임·소리·이미지 저장·공유 링크가 함께 들어간 앱 하나를 맡겨 보는 쪽이 모델의 실력을 보기에 좋다고 생각했습니다.",
+      users: "개인 실험 — 매일 짧은 묵상 글을 읽고 지인과 나누고 싶은 사용자를 가정",
+      roles: "앱의 구성과 흐름을 기획서로 정리하고, Gemini Argon이 만든 결과를 확인하며 다듬었습니다.",
+      features: [
+        "포춘쿠키를 누르면 흔들리다 깨지는 움직임과 소리·진동, 말씀 쪽지가 펼쳐지는 화면",
+        "30개 묵상 카드 — 앞면은 본문·해설·기도문, 뒷면은 원어 풀이와 오늘의 실천",
+        "네 가지 맛(평안·새힘·지혜·사랑)별 분류, 모은 쿠키 도감과 검색",
+        "카드 이미지 만들기(PNG 저장)와, 받는 사람이 직접 쿠키를 깨 보는 선물 링크",
+        "가입 없이 기록은 브라우저에만 저장",
+      ],
+      process:
+        "정보 구조와 기능 정의를 담은 기획서를 먼저 정리하고, 앱 전체를 Gemini Argon에 맡긴 뒤 결과를 보며 고쳤습니다. 파일 하나(index.html)로 동작합니다.",
+      result:
+        "모델 하나로 움직임·소리·이미지 생성·공유 링크까지 한 번에 동작하는 앱을 만들 수 있는지 확인했습니다. 업무 밖에서 새 AI 모델을 직접 써 보며 어디까지 맡길 수 있는지 가늠해 본 실험입니다.",
+      stack: "HTML, Tailwind CSS, JavaScript, Canvas API(카드 이미지), Web Audio API(효과음), localStorage / Gemini Argon(제작)",
+      gallery: [
+        { src: "assets/img/grace-cookie.png", caption: "홈 화면 — 맛별 쿠키 고르기, 모은 쿠키 비율, 오늘의 쿠키" },
+      ],
+      note: "사회복지 업무와 무관한 개인 실험입니다. 새 AI 모델(Gemini Argon)의 앱 제작 능력을 시험하려고 만들었습니다.",
     },
   },
 ];

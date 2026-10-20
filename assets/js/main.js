@@ -64,13 +64,16 @@
   if (featuredList) {
     publicProjects
       .filter(function (p) { return p.tier === "featured"; })
+      .sort(function (a, b) { return (a.featuredRank || 99) - (b.featuredRank || 99); })
       .forEach(function (p) {
         var card = document.createElement("article");
         card.className = "featured-card reveal";
         var iconSvg = (typeof ICONS !== "undefined" && ICONS[p.icon]) || "";
         // 스크린샷(image)이 있으면 이미지, 없으면 아이콘 플레이스홀더
-        var thumbHtml = p.image
-          ? '<div class="thumb has-img"><img src="' + p.image + '" alt="' + p.title + ' 화면" loading="lazy" /></div>'
+        // 카드용 사진(cardImage)이 따로 있으면 그것을 씀
+        var cardImg = p.cardImage || p.image;
+        var thumbHtml = cardImg
+          ? '<div class="thumb has-img"><img src="' + cardImg + '" alt="' + p.title + ' 대표 사진" loading="lazy" /></div>'
           : '<div class="thumb" role="img" aria-label="' + p.title + ' 대표 화면 자리">' +
             '<span class="thumb-icon">' + iconSvg + "</span>" +
             (p.thumbNote ? "<span>" + p.thumbNote + "</span>" : "") + "</div>";
@@ -83,6 +86,12 @@
           "</div>" +
           "<h3><a href=\"project.html?slug=" + p.slug + '">' + p.title + "</a></h3>" +
           '<p class="summary">' + p.summary + "</p>" +
+          (p.metrics && p.metrics.length
+            ? '<div class="card-metrics">' +
+              p.metrics.slice(0, 3).map(function (m) {
+                return '<div><b>' + m.value + "</b><span>" + m.label + "</span></div>";
+              }).join("") + "</div>"
+            : "") +
           (p.featuredStory ? '<p class="story">' + p.featuredStory + "</p>" : "") +
           '<div class="card-foot">' +
           '<span class="tag">' + p.period + "</span>" +
