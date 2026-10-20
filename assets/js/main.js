@@ -239,6 +239,122 @@
     }
   }
 
+  /* ---------- 해 온 일 ---------- */
+  var fitGrid = document.getElementById("fitGrid");
+  if (fitGrid && typeof FIT !== "undefined") {
+    FIT.forEach(function (g) {
+      var card = document.createElement("div");
+      card.className = "fit-card reveal";
+      card.innerHTML =
+        "<h3>" + g.area + "</h3><ul>" +
+        g.items.map(function (it) {
+          return "<li><span>" + it.text + "</span>" +
+            (it.links.length
+              ? '<span class="fit-links">' + it.links.map(function (l) {
+                  return '<a href="project.html?slug=' + l[1] + '">' + l[0] + " \u2192</a>";
+                }).join("") + "</span>"
+              : "") +
+            "</li>";
+        }).join("") + "</ul>";
+      fitGrid.appendChild(card);
+    });
+  }
+
+  /* ---------- 강점 카드 덱 ---------- */
+  var deck = document.getElementById("deck");
+  if (deck && typeof STRENGTHS !== "undefined") {
+    var N = STRENGTHS.length, cur = 0;
+    var tabsBox = document.getElementById("strengthTabs");
+    var countEl2 = document.getElementById("deckCount");
+    var cards = STRENGTHS.map(function (st, i) {
+      var c = document.createElement("article");
+      c.className = "s-card theme-" + st.theme;
+      c.setAttribute("aria-label", st.ko + " 카드");
+      c.innerHTML =
+        '<div class="s-panel">' +
+        '<span class="s-kind"><i></i>' + st.kind + "</span>" +
+        '<span class="s-num">' + String(i + 1).padStart(2, "0") + " / " + String(N).padStart(2, "0") + "</span>" +
+        '<span class="s-chip c1">' + st.chips[0] + "</span>" +
+        '<span class="s-chip c2">' + st.chips[1] + "</span>" +
+        '<span class="s-spark" aria-hidden="true"></span>' +
+        '<span class="s-blob" aria-hidden="true"><span class="s-blob-icon">' + (ICONS[st.icon] || "") + "</span></span>" +
+        '<span class="s-shadow" aria-hidden="true"></span>' +
+        '<span class="s-note">' + st.note + "</span>" +
+        "</div>" +
+        '<div class="s-body">' +
+        '<h3>' + st.ko + ' <small>' + st.en + "</small></h3>" +
+        '<p>' + st.desc + "</p>" +
+        '<div class="s-links">' + st.projects.map(function (pr) {
+          return '<a href="project.html?slug=' + pr[1] + '">' + pr[0] + " \u2192</a>";
+        }).join("") + "</div>" +
+        "</div>";
+      c.addEventListener("click", function (e) {
+        if (i !== cur && !e.target.closest("a")) { e.preventDefault(); go(i); }
+      });
+      deck.appendChild(c);
+      if (tabsBox) {
+        var t = document.createElement("button");
+        t.type = "button";
+        t.className = "s-tab theme-" + st.theme;
+        t.setAttribute("role", "tab");
+        t.textContent = st.ko;
+        t.addEventListener("click", function () { go(i); });
+        tabsBox.appendChild(t);
+      }
+      return c;
+    });
+    var tabs = tabsBox ? tabsBox.querySelectorAll(".s-tab") : [];
+
+    function layoutDeck(dragX) {
+      cards.forEach(function (c, i) {
+        var off = (i - cur + N) % N;
+        var tr, op = 1, z = N - off;
+        if (off === 0) {
+          tr = "translateX(" + (dragX || 0) + "px) rotate(" + ((dragX || 0) / 40) + "deg)";
+        } else if (off === N - 1) {
+          // 방금 넘긴 카드: 왼쪽으로 빠져나감
+          tr = "translateX(-115%) rotate(-10deg) scale(.92)"; op = 0; z = 0;
+        } else {
+          var k = Math.min(off, 3);
+          tr = "translateX(" + (k * 34) + "px) translateY(" + (k * 6) + "px) scale(" + (1 - k * 0.07) + ")";
+          op = off > 3 ? 0 : 1 - k * 0.12;
+        }
+        c.style.transform = tr;
+        c.style.opacity = op;
+        c.style.zIndex = z;
+        c.classList.toggle("is-front", off === 0);
+        c.setAttribute("aria-hidden", off === 0 ? "false" : "true");
+        c.querySelectorAll("a").forEach(function (a) { a.tabIndex = off === 0 ? 0 : -1; });
+      });
+      tabs.forEach(function (t, i) { t.setAttribute("aria-selected", i === cur ? "true" : "false"); });
+      if (countEl2) countEl2.textContent = (cur + 1) + " / " + N;
+    }
+    function go(i) { cur = (i + N) % N; layoutDeck(0); }
+    document.getElementById("deckPrev").addEventListener("click", function () { go(cur - 1); });
+    document.getElementById("deckNext").addEventListener("click", function () { go(cur + 1); });
+    deck.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { go(cur + 1); e.preventDefault(); }
+      if (e.key === "ArrowLeft") { go(cur - 1); e.preventDefault(); }
+    });
+
+    // 손가락·마우스로 끌어서 넘기기
+    var startX = null, dx = 0, dragging = false;
+    deck.addEventListener("pointerdown", function (e) {
+      if (!e.target.closest(".s-card.is-front") || e.target.closest("a")) return;
+      startX = e.clientX; dx = 0; dragging = true; deck.classList.add("dragging");
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      dx = e.clientX - startX; layoutDeck(dx);
+    });
+    window.addEventListener("pointerup", function () {
+      if (!dragging) return;
+      dragging = false; deck.classList.remove("dragging");
+      if (dx < -60) go(cur + 1); else if (dx > 60) go(cur - 1); else layoutDeck(0);
+    });
+    layoutDeck(0);
+  }
+
   /* ---------- AI 작업 방식 ---------- */
   var aiFlow = document.getElementById("aiFlow");
   if (aiFlow && typeof AI_FLOW !== "undefined") {
@@ -269,12 +385,12 @@
 
   /* ---------- 방문자 유형별 소개 토글 ---------- */
   var INTROS = {
-    field:
-      "현장의 반복 업무와 어려움을 먼저 듣고, 오늘 바로 써볼 수 있는 작은 변화부터 함께 만듭니다. 제가 만든 것들도 실제 현장에서 겪은 문제에서 시작했습니다.",
-    manager:
-      "도구를 도입하는 데서 끝내지 않고, 구성원이 실제로 사용하고 조직에 남는 과정까지 설계합니다. 담당자가 바뀌어도 계속 굴러가도록 매뉴얼과 운영 방식을 함께 남깁니다.",
     hiring:
-      "현장 경험과 협회의 사업 운영 경험을 함께 가지고 있습니다. 복잡한 현장의 요구를 실행 가능한 사업과 서비스로 구조화하고, 기획부터 제작·운영까지 끝까지 맡아 왔습니다.",
+      "사업 운영에서 모집·선발, 계약, 정산, 교육을 맡아 왔고, 직원행복위원회와 노사회의, 사내 강사로 조직 안의 일도 함께 해 왔습니다. 반복되는 일은 Claude Code로 도구를 만들어 실제 업무에 쓰고 있습니다.",
+    manager:
+      "제도를 새로 만들기보다, 지금 있는 제도가 빠짐없이 정확하게 돌아가도록 하는 데 먼저 힘쓰겠습니다. 담당자가 바뀌어도 이어지도록 절차와 기록을 남깁니다.",
+    field:
+      "반복되는 행정은 제가 먼저 덜어 보겠습니다. 불편한 점을 말씀해 주시면, 제도와 도구 양쪽에서 가장 간단한 방법을 찾아 함께 바꿉니다.",
   };
   var introTabs = document.querySelectorAll(".is-tab");
   var introMsg = document.getElementById("introMsg");
@@ -288,7 +404,7 @@
     introTabs.forEach(function (t) {
       t.addEventListener("click", function () { setIntro(t.getAttribute("data-intro")); });
     });
-    setIntro("field");
+    setIntro("hiring");
   }
 
   /* ---------- 강점 네트워크 iframe 높이 자동 조정 ---------- */

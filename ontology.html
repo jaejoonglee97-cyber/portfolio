@@ -19,13 +19,17 @@
   .legend span { display: inline-flex; align-items: center; gap: 7px; color: #b9c4bf; }
   .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
   .legend small { color: #6e7f78; font-size: 0.76rem; }
+  .legend i.ring { background: transparent; border: 1.5px solid #f4c86a; width: 9px; height: 9px; }
   .stage { position: relative; width: 100%; max-width: 760px; margin: 4px auto 0; touch-action: manipulation; }
-  #neb { position: absolute; inset: 0; z-index: 0; }
+  #neb { position: absolute; inset: 0; z-index: 0;
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+            mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); }
   #net { position: absolute; inset: 0; z-index: 1; }
-  .edge { stroke: #2f6f5d; stroke-width: 1; opacity: 0.3; transition: opacity .3s, stroke .3s; }
-  .edge.on { stroke: #4be3ac; opacity: 0.95; stroke-width: 2; }
+  .edge { stroke-width: 1.4; opacity: 0.35; stroke-linecap: round; }
   .node { cursor: pointer; }
-  .node circle.ring { fill: rgba(10,20,16,0.72); stroke-width: 1.8; }
+  .node circle.ring { stroke-width: 1.8; }
+  .node circle.halo { fill: none; stroke-width: 1; stroke-dasharray: 2 7; stroke-linecap: round; opacity: .55; pointer-events: none; }
+  .node:hover circle.ring, .node:focus circle.ring { stroke-width: 2.6; }
   .node .lbl { fill: #f4f8f6; font-weight: 800; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
   .node .en { text-anchor: middle; dominant-baseline: central; font-weight: 600; pointer-events: none; opacity: .8; }
   .node .bar { }
@@ -53,6 +57,7 @@
   </div>
   <div class="legend">
     <span><i style="background:#f4c86a"></i>대표 강점 <small>· 태니지먼트 진단 2026.07</small></span>
+    <span><i class="ring"></i>6대 재능 <small>· 안쪽 궤도</small></span>
     <span><i style="background:#34d399"></i>실무 강점</span>
   </div>
 
@@ -66,7 +71,7 @@
 <script>
 const AMBER=[244,200,106], TEAL=[52,211,153];
 const HUB = { id:"core", ko:"창조·탐구", en:"Create · Explore", rgb:AMBER, s:"#f4c86a",
-  ev:"태니지먼트 진단 대표 강점 — 새롭게 제안하고(창조) 깊이 파고들어 해결하는(탐구) 사람입니다.",
+  ev:"태니지먼트 진단 대표 강점 — 새롭게 제안하고(창조) 깊이 파고들어 해결하는(탐구) 사람입니다. 안쪽 궤도의 별은 같은 진단에서 나온 6대 재능(창의·정보수집·양성·행동·비교·효율)입니다.",
   projects:[{slug:"matzip",t:"맛집 평점 보정"},{slug:"hangul-catch",t:"한글 캐치"},{slug:"yeolmae-hackathon",t:"해커톤 허브"}] };
 const ORBIT = [
   { id:"plan",    ko:"기획",   en:"Plan",    ev:"신청·심사·매뉴얼·데이터센터 등 거의 모든 프로젝트를 직접 기획했습니다.",
@@ -83,6 +88,7 @@ const ORBIT = [
 ORBIT.forEach((n,i)=>{ n.base = -Math.PI/2 + i*(2*Math.PI/ORBIT.length); n.rgb=TEAL; n.s="#34d399";
   n.parts = Array.from({length:40},()=>({ang:Math.random()*6.283,dist:0.75+Math.random()*1.7,sz:Math.random()*1.5+0.35,tw:Math.random()*6.283,ts:Math.random()*0.03+0.006,orb:(Math.random()*0.0015+0.0004)*(Math.random()<0.5?-1:1)})); });
 HUB.parts = Array.from({length:70},()=>({ang:Math.random()*6.283,dist:0.75+Math.random()*1.8,sz:Math.random()*1.7+0.45,tw:Math.random()*6.283,ts:Math.random()*0.03+0.006,orb:(Math.random()*0.0012+0.0003)*(Math.random()<0.5?-1:1)}));
+const TALENTS = ["창의","정보수집","양성","행동","비교","효율"].map((ko,i,a)=>({ko, base: i*(2*Math.PI/a.length)}));
 const ALL = [HUB, ...ORBIT];
 const byId = Object.fromEntries(ALL.map(n=>[n.id,n]));
 
@@ -92,29 +98,40 @@ const edgesG=document.getElementById("edges"), nodesG=document.getElementById("n
 const cap=document.getElementById("cap"), canvas=document.getElementById("neb"), ctx=canvas.getContext("2d");
 const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const edgeEls = ORBIT.map(n=>{ const l=document.createElementNS(SVGNS,"line"); l.setAttribute("class","edge"); l.dataset.id=n.id; edgesG.appendChild(l); return l; });
+// 유리구슬 그라데이션·빛번짐·연결선 그라데이션 정의
+const defs=document.createElementNS(SVGNS,"defs");
+defs.innerHTML=
+  '<radialGradient id="gHub" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#ffe7a8" stop-opacity=".55"/><stop offset=".45" stop-color="#5a4314" stop-opacity=".8"/><stop offset="1" stop-color="#0d0f0b" stop-opacity=".95"/></radialGradient>'+
+  '<radialGradient id="gOrb" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#8ff5cf" stop-opacity=".42"/><stop offset=".5" stop-color="#0f3a2c" stop-opacity=".82"/><stop offset="1" stop-color="#06100c" stop-opacity=".95"/></radialGradient>'+
+  '<filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'+
+  ORBIT.map(n=>'<linearGradient id="eg-'+n.id+'" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4c86a"/><stop offset="1" stop-color="#34d399"/></linearGradient>').join("");
+svg.insertBefore(defs, svg.firstChild);
+const edgeEls = ORBIT.map(n=>{ const l=document.createElementNS(SVGNS,"line"); l.setAttribute("class","edge"); l.setAttribute("stroke","url(#eg-"+n.id+")"); l.dataset.id=n.id; edgesG.appendChild(l); n.grad=defs.querySelector("#eg-"+n.id); return l; });
 ALL.forEach(n=>{
   const g=document.createElementNS(SVGNS,"g"); g.setAttribute("class","node"); g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label",n.ko); g.dataset.id=n.id;
   n.g=g; n.ring=document.createElementNS(SVGNS,"circle"); n.ring.setAttribute("class","ring"); n.ring.setAttribute("stroke",n.s);
+  n.ring.setAttribute("fill", n===HUB ? "url(#gHub)" : "url(#gOrb)"); n.ring.setAttribute("filter","url(#glow)");
+  n.halo=document.createElementNS(SVGNS,"circle"); n.halo.setAttribute("class","halo"); n.halo.setAttribute("stroke",n.s);
   n.lbl=document.createElementNS(SVGNS,"text"); n.lbl.setAttribute("class","lbl"); n.lbl.textContent=n.ko;
   n.enEl=document.createElementNS(SVGNS,"text"); n.enEl.setAttribute("class","en"); n.enEl.setAttribute("fill",n.s); n.enEl.textContent=n.en;
   n.bar=document.createElementNS(SVGNS,"rect"); n.bar.setAttribute("fill",n.s); n.bar.setAttribute("rx","1.5");
-  g.append(n.ring,n.lbl,n.enEl,n.bar); nodesG.appendChild(g);
+  g.append(n.halo,n.ring,n.lbl,n.enEl,n.bar); nodesG.appendChild(g);
   const act=()=>{ paused=true; select(n.id); };
   g.addEventListener("mouseenter",act); g.addEventListener("focus",act); g.addEventListener("click",e=>{e.stopPropagation();act();});
   g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();act();} });
 });
 
-let W=0,H=0,CX=0,CY=0,rx=0,ry=0,hubR=0,orbR=0,rot=0,paused=false,active=null;
+let W=0,H=0,CX=0,CY=0,rx=0,ry=0,hubR=0,orbR=0,rot=0,paused=false,active=null,MOBILE=false,T=0,ryNow=0,cxNow=0,cyNow=0;
 function layout(){
   W=stage.clientWidth; const mobile=W<560;
-  H=mobile?Math.min(W*0.94,420):Math.min(W*0.56,420);
+  H=mobile?Math.min(W*1.02,450):Math.min(W*0.6,470);
   stage.style.height=H+"px";
   const dpr=Math.min(window.devicePixelRatio||1,2);
   canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+"px"; canvas.style.height=H+"px"; ctx.setTransform(dpr,0,0,dpr,0,0);
   svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("width",W); svg.setAttribute("height",H);
-  CX=W/2; CY=H*0.5; rx=Math.min(W*0.34,330); ry=Math.min(rx*0.56,H*0.34);
-  hubR=Math.max(mobile?32:38, Math.min(W,H)*0.08); orbR=Math.max(mobile?22:26, Math.min(W,H)*0.056);
+  CX=W/2; CY=H*0.5; rx=Math.min(W*(mobile?0.33:0.35),340); ry=mobile?H*0.33:Math.min(rx*0.56,H*0.34);
+  hubR=Math.max(mobile?38:46, Math.min(W,H)*0.105); orbR=Math.max(mobile?26:31, Math.min(W,H)*0.07);
+  MOBILE=mobile;
   HUB.x=CX; HUB.y=CY; HUB.r=hubR; HUB.scale=1;
   seedBg();
 }
@@ -123,8 +140,8 @@ function place(){
   mx+=(tmx-mx)*0.05; my+=(tmy-my)*0.05;
   const par=Math.min(W,H)*0.035;
   const cx=CX+mx*par, cy=CY+my*par;
-  const ryD=ry*(0.62+((my+1)/2)*0.62);
-  HUB.x=cx; HUB.y=cy; HUB.r=hubR; HUB.scale=1;
+  const ryD=ry*(MOBILE?1:(0.62+((my+1)/2)*0.62));
+  HUB.x=cx; HUB.y=cy; HUB.r=hubR; HUB.scale=1; cxNow=cx; cyNow=cy; ryNow=ryD;
   ORBIT.forEach(n=>{ const a=n.base+rot; n.x=cx+rx*Math.cos(a); n.y=cy+ryD*Math.sin(a);
     const d=(Math.sin(a)+1)/2; n.d=d; n.scale=0.7+d*0.5; n.op=0.5+d*0.5; n.r=orbR*n.scale; });
 }
@@ -134,28 +151,68 @@ function paint(){
     e.ring.setAttribute("cx",n.x); e.ring.setAttribute("cy",n.y); e.ring.setAttribute("r",n.r);
     e.ring.setAttribute("stroke-width", (n===HUB?2.2:1.8)*sc);
     e.g.style.opacity = (active && active!==n.id && !(n.id==="core"&&active) && !(n===HUB)) ? op*0.9 : op;
-    const two=n.ko.length>3;
-    e.lbl.setAttribute("x",n.x); e.lbl.setAttribute("y",n.y-n.r*0.16); e.lbl.setAttribute("font-size",Math.max(11,(n===HUB?n.r*0.34:(two?n.r*0.36:n.r*0.5))));
-    e.enEl.setAttribute("x",n.x); e.enEl.setAttribute("y",n.y+n.r*0.42); e.enEl.setAttribute("font-size",Math.max(8,n.r*0.22));
+    // 글자가 원 안에 들어가도록 길이에 맞춰 크기 조절
+    const inner=n.r*1.62;
+    const fsKo=Math.max(10, Math.min(n.r*(n===HUB?0.36:0.46), inner/(n.ko.length*0.98)));
+    const fsEn=Math.max(7, Math.min(n.r*0.22, inner/(n.en.length*0.56)));
+    e.lbl.setAttribute("x",n.x); e.lbl.setAttribute("y",n.y-n.r*0.14); e.lbl.setAttribute("font-size",fsKo);
+    e.enEl.setAttribute("x",n.x); e.enEl.setAttribute("y",n.y+n.r*0.4); e.enEl.setAttribute("font-size",fsEn);
+    e.halo.setAttribute("cx",n.x); e.halo.setAttribute("cy",n.y); e.halo.setAttribute("r",n.r*1.2);
+    e.halo.style.strokeDashoffset = (n===HUB?-1:1)*T*0.35;
+    e.halo.style.opacity = (active===n.id||n===HUB) ? 0.85 : 0.4;
     const bw=n.r*0.85; e.bar.setAttribute("x",n.x-bw/2); e.bar.setAttribute("y",n.y+n.r+6*sc); e.bar.setAttribute("width",bw); e.bar.setAttribute("height",3);
   });
-  edgeEls.forEach(l=>{ const n=byId[l.dataset.id]; l.setAttribute("x1",HUB.x); l.setAttribute("y1",HUB.y); l.setAttribute("x2",n.x); l.setAttribute("y2",n.y); l.style.opacity = active? (active===n.id?0.95:0.12) : (0.2+n.d*0.3); });
+  edgeEls.forEach(l=>{ const n=byId[l.dataset.id]; l.setAttribute("x1",HUB.x); l.setAttribute("y1",HUB.y); l.setAttribute("x2",n.x); l.setAttribute("y2",n.y);
+    n.grad.setAttribute("x1",HUB.x); n.grad.setAttribute("y1",HUB.y); n.grad.setAttribute("x2",n.x); n.grad.setAttribute("y2",n.y);
+    l.style.opacity = active? (active===n.id?1:0.12) : (0.28+n.d*0.4); l.style.strokeWidth = active===n.id?2.4:1.4; });
   const back=ORBIT.filter(n=>n.d<0.5).sort((a,b)=>a.d-b.d);
   const front=ORBIT.filter(n=>n.d>=0.5).sort((a,b)=>a.d-b.d);
   back.forEach(n=>nodesG.appendChild(n.g)); nodesG.appendChild(HUB.g); front.forEach(n=>nodesG.appendChild(n.g));
 }
 let bg=[];
 function seedBg(){ bg=Array.from({length:Math.round(W*H/13000)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.2,tw:Math.random()*6.283,ts:Math.random()*0.02+0.004})); }
+// 연결선 위를 흐르는 빛 알갱이
+const pulses=[]; let spawnAcc=0;
+function lerp(a,b,t){ return a+(b-a)*t; }
 function neb(){
   ctx.clearRect(0,0,W,H);
+  if(!reduced) T+=1;
+  // 오로라: 크고 옅은 빛 세 덩이가 천천히 움직임
+  [[0.28,0.32,"52,211,153",0.10,0.0007],[0.74,0.62,"244,200,106",0.07,0.0005],[0.5,0.85,"40,170,190",0.07,0.0009]].forEach(([bx,by,c,al,sp],i)=>{
+    const x=W*(bx+Math.sin(T*sp+i)*0.06), y=H*(by+Math.cos(T*sp*1.3+i)*0.06), R=Math.max(W,H)*0.45;
+    const g=ctx.createRadialGradient(x,y,0,x,y,R); g.addColorStop(0,"rgba("+c+","+al+")"); g.addColorStop(1,"rgba("+c+",0)");
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H); });
+  // 바깥 궤도 점선
+  ctx.save(); ctx.setLineDash([2,9]); ctx.lineDashOffset=-T*0.3; ctx.strokeStyle="rgba(52,211,153,0.16)"; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.ellipse(cxNow,cyNow,rx,ryNow,0,0,6.283); ctx.stroke();
+  // 안쪽 궤도(6대 재능)
+  ctx.strokeStyle="rgba(244,200,106,0.13)"; ctx.beginPath(); ctx.ellipse(cxNow,cyNow,rx*0.52,ryNow*0.64,0,0,6.283); ctx.stroke(); ctx.restore();
+  // 중심의 잔물결
+  for(let i=0;i<3;i++){ const k=((T*0.006)+i/3)%1; const rr=HUB.r*(1.05+k*1.5);
+    ctx.beginPath(); ctx.arc(HUB.x,HUB.y,rr,0,6.283); ctx.strokeStyle="rgba(244,200,106,"+(0.28*(1-k))+")"; ctx.lineWidth=1.2; ctx.stroke(); }
+  // 6대 재능 별 (반대 방향으로 천천히)
+  ctx.font="600 11px 'Pretendard Variable', Pretendard, sans-serif"; ctx.textAlign="center"; ctx.textBaseline="top";
+  TALENTS.forEach(t=>{ const a=t.base-rot*1.6+0.3; const x=cxNow+rx*0.52*Math.cos(a), y=cyNow+ryNow*0.64*Math.sin(a); const d=(Math.sin(a)+1)/2;
+    const al=(active&&active!=="core")?0.25:(0.45+d*0.55); const rr=2.2+d*1.6;
+    const g=ctx.createRadialGradient(x,y,0,x,y,rr*4); g.addColorStop(0,"rgba(255,226,150,"+(0.55*al)+")"); g.addColorStop(1,"rgba(255,226,150,0)");
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,rr*4,0,6.283); ctx.fill();
+    ctx.fillStyle="rgba(255,236,190,"+al+")"; ctx.beginPath(); ctx.arc(x,y,rr,0,6.283); ctx.fill();
+    if(!MOBILE||active==="core"){ ctx.fillStyle="rgba(244,214,150,"+(al*0.9)+")"; ctx.fillText(t.ko,x,y+rr+4); } });
+  // 빛 알갱이: 중심에서 강점으로 흘러감
+  if(!reduced){ spawnAcc+=active?0.09:0.045; while(spawnAcc>=1){ spawnAcc-=1; const n=active&&active!=="core"&&Math.random()<0.7?byId[active]:ORBIT[(Math.random()*ORBIT.length)|0]; pulses.push({n,t:0,sp:0.006+Math.random()*0.006}); } }
+  for(let i=pulses.length-1;i>=0;i--){ const p=pulses[i]; p.t+=p.sp*(active===p.n.id?1.8:1); if(p.t>=1){ pulses.splice(i,1); continue; }
+    const x=lerp(HUB.x,p.n.x,p.t), y=lerp(HUB.y,p.n.y,p.t); const c=[lerp(244,52,p.t)|0,lerp(200,211,p.t)|0,lerp(106,153,p.t)|0];
+    const fade=Math.sin(p.t*Math.PI)*(active&&active!==p.n.id?0.25:1); const R=active===p.n.id?7:5;
+    const g=ctx.createRadialGradient(x,y,0,x,y,R); g.addColorStop(0,"rgba("+c+","+(0.95*fade)+")"); g.addColorStop(1,"rgba("+c+",0)");
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,R,0,6.283); ctx.fill(); }
   for(const s of bg){ s.tw+=s.ts; const a=(0.3+Math.abs(Math.sin(s.tw))*0.5)*0.4; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.283); ctx.fillStyle="rgba(90,190,155,"+a+")"; ctx.fill(); }
   const list=[...ORBIT].sort((a,b)=>a.d-b.d); list.splice(list.findIndex(n=>n.d>=0.5)<0?list.length:list.findIndex(n=>n.d>=0.5),0,HUB);
   for(const n of list){ const [r,g,b]=n.rgb; const sc=n===HUB?1:n.scale; const dim=active&&active!==n.id; const boost=active===n.id?1.6:1;
     for(const p of n.parts){ if(!reduced){ p.ang+=p.orb; p.tw+=p.ts; } const rad=p.dist*n.r; const x=n.x+Math.cos(p.ang)*rad,y=n.y+Math.sin(p.ang)*rad;
-      const a=(0.25+Math.abs(Math.sin(p.tw))*0.55)*(dim?0.14:0.6)*boost*(n===HUB?1:n.op); ctx.beginPath(); ctx.arc(x,y,p.sz*sc,0,6.283); ctx.fillStyle="rgba("+r+","+g+","+b+","+a+")"; ctx.fill(); }
-    const gr=ctx.createRadialGradient(n.x,n.y,n.r*0.4,n.x,n.y,n.r*2.1); const ga=(dim?0.05:0.17)*boost*(n===HUB?1:n.op);
+      const a=(0.3+Math.abs(Math.sin(p.tw))*0.6)*(dim?0.14:0.75)*boost*(n===HUB?1:n.op); ctx.beginPath(); ctx.arc(x,y,p.sz*sc,0,6.283); ctx.fillStyle="rgba("+r+","+g+","+b+","+a+")"; ctx.fill(); }
+    const gr=ctx.createRadialGradient(n.x,n.y,n.r*0.4,n.x,n.y,n.r*2.3); const ga=(dim?0.06:0.24)*boost*(n===HUB?1:n.op);
     gr.addColorStop(0,"rgba("+r+","+g+","+b+","+ga+")"); gr.addColorStop(1,"rgba("+r+","+g+","+b+",0)");
-    ctx.beginPath(); ctx.arc(n.x,n.y,n.r*2.1,0,6.283); ctx.fillStyle=gr; ctx.fill(); }
+    ctx.beginPath(); ctx.arc(n.x,n.y,n.r*2.3,0,6.283); ctx.fillStyle=gr; ctx.fill(); }
 }
 function render(){ place(); paint(); neb(); }
 function frame(){ if(!paused&&!reduced) rot += 0.0022 + mx*0.0032; render(); requestAnimationFrame(frame); }

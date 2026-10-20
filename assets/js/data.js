@@ -9,10 +9,10 @@
    - "auto:projects" = 공개 프로젝트 수 자동 계산
    - "auto:live"     = 상태에 '운영'이 포함된 프로젝트 수 자동 계산 */
 const STATS = [
-  { value: "auto:projects", label: "만들고 운영한 것" },
-  { value: 1000, label: "매뉴얼 진단 기관", suffix: "곳+" },
-  { value: 11000, label: "누적 페이지 방문", suffix: "+" },
-];
+  { value: 5000, label: "매뉴얼 조회", suffix: "+" },
+  { value: 2000, label: "매뉴얼 다운로드", suffix: "+" },
+  { value: 1000, label: "매뉴얼로 자가진단한 기관", suffix: "곳+" },
+]
 
 /* 프로젝트 썸네일 아이콘 (스크린샷 준비 전 임시) */
 const ICONS = {
@@ -56,6 +56,8 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4" width="6" height="5" rx="1.2"/><rect x="14.5" y="4" width="6" height="5" rx="1.2"/><rect x="9" y="15" width="6" height="5" rx="1.2"/><path d="M6.5 9v2.5h11V9"/><path d="M12 11.5V15"/></svg>',
   calc:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3.5" rx="0.8"/><path d="M8.5 13h1M12 13h1M15 13h.5M8.5 16.5h1M12 16.5h1M15 16.5h.5"/></svg>',
+  spark:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/><path d="M18.5 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z"/></svg>',
   mail:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></svg>',
   chart:
@@ -64,9 +66,9 @@ const ICONS = {
 
 const SITE = {
   name: "이재중",
-  tagline: "우리가 사회복지를 하는 이유는 사람을 만나기 위해서입니다.",
-  subTagline: "사회복지를 더 본질적으로, 더 잘하기 위해 변할 때입니다. 반복되는 일은 덜고, 사람을 만나는 시간을 늘리는 도구를 직접 만들어 운영합니다.",
-  fields: ["디지털 전환", "서비스 기획", "AI 활용", "운영 자동화"],
+  tagline: "사람이 할 일에, 사람이 집중할 수 있도록.",
+  subTagline: "모집·선발, 계약·정산, 직원 교육처럼 조직을 받치는 일을 맡아 왔고, 반복되는 일은 Claude Code로 도구를 만들어 줄여 왔습니다.",
+  fields: ["사업 운영", "모집·선발·계약", "조직문화·교육", "업무 자동화"],
   // 이메일은 스팸 수집 방지를 위해 분리 보관 후 JS로 조립
   emailUser: "client_first",
   emailDomain: "naver.com",
@@ -84,16 +86,17 @@ const PROJECTS = [
     links: [{ label: "라이브 보기", url: "https://3rd-apply.vercel.app/" }],
     period: "2026.06 – 2026.07",
     status: "운영 완료",
-    tier: "major",
+    tier: "featured",
+    featuredRank: 1,
     category: ["운영 시스템", "디지털 전환"],
     role: ["기획", "개발", "운영"],
     tags: ["신청 시스템", "심사 평가", "PDF", "관리자 화면"],
     ai: ["OpenAI Codex", "Claude Code"],
-    featuredStory: "2026년 6월 초기 버전에서 한 달 만에 실제 운영 수준으로 발전시킨 시스템입니다.",
+    featuredStory: "공고부터 서류심사, 면접, 점수 보정, 최종 선정과 서명 평가표까지 — 선발의 전 과정을 한 흐름으로 만들어 직접 운영했습니다.",
     visibility: "public",
     metrics: [
-      { value: "4,000+", label: "페이지 방문" },
       { value: "69곳", label: "신청 기관" },
+      { value: "6명·4명", label: "서류·면접 심사위원" },
       { value: "23곳", label: "최종 선정" },
     ],
     detail: {
@@ -108,7 +111,9 @@ const PROJECTS = [
         "신청서 PDF 생성",
         "운영자용 관리자 화면",
         "서류심사(6명)·면접심사(4명) 평가와 심사위원 서명",
-        "점수 보정과 최종선정 처리",
+        "면접 조가 달라도 공정하게 비교하도록 심사위원별 점수를 표준화(Z점수)해 순위 산출",
+        "심사위원 서명이 들어간 평가표 자동 작성(인쇄·PDF)",
+        "최종선정 명단 반영과 단계별 현황 관리",
       ],
       process:
         "2026년 6월 초기 버전을 만들어 내부 검토를 거친 뒤, 7월 실제 모집·심사에 맞춰 운영 수준으로 다듬었습니다. 요구사항 정리와 구조 설계는 Codex로, 구현은 Claude Code로 진행하고, 매 단계 사람이 검증했습니다.",
@@ -572,7 +577,7 @@ const PROJECTS = [
     role: ["기획", "개발", "운영"],
     tags: ["업무 통합", "교육 평가", "현장 모니터링", "전자서명", "정산·증빙"],
     ai: ["Groq"],
-    featuredStory: "흩어져 있던 사업 운영 업무를 하나의 웹으로 모았고, 2026년 8월부터 60여 명이 실제 사업 업무에 쓰는 지금도 직접 운영하며 고치고 있습니다.",
+    featuredStory: "강사 배정과 계약 전자서명, 정산·증빙, 가입 승인과 권한 관리까지 — 60여 명이 실제 업무에 쓰는 운영 시스템을 직접 만들고, 지금도 운영하며 고치고 있습니다.",
     visibility: "public",
     metrics: [
       { value: "60여 명", label: "실제 사용자" },
@@ -756,8 +761,7 @@ const PROJECTS = [
     ],
     period: "2024.07 –",
     status: "운영",
-    tier: "featured",
-    featuredRank: 1,
+    tier: "major",
     category: ["사업 운영", "디지털 전환"],
     role: ["기획", "운영"],
     tags: ["사업 기획·운영", "참여기관 심사", "컨설팅 운영", "성과 확산"],
@@ -775,7 +779,7 @@ const PROJECTS = [
         "사회복지 현장에서 스마트워크의 필요성은 오래 이야기돼 왔지만, 번거롭다·담당할 인력이 없다·어렵다는 이유로 실제 도입은 더뎠습니다. 일회성 교육만으로는 기관이 일하는 방식이 바뀌지 않았습니다.",
       users: "서울 지역 사회복지기관과 실무자, 컨설팅을 맡은 강사",
       roles:
-        "협회 사업 담당자로 참여기관 모집·심사, 컨설팅 운영과 강사 섭외·조율, 성과공유와 확산을 맡았습니다. 실제 변화를 만든 것은 각 기관의 담당자들이고, 저는 그 과정이 굴러가도록 운영을 담당했습니다.",
+        "협회 사업 담당자로 참여기관 모집·심사, 강사 섭외와 강사 계약 체결, 참여기관 협약, 컨설팅 운영, 스마트워크 위원회 정기회의 운영, 성과공유와 확산을 맡았습니다. 실제 변화를 만든 것은 각 기관의 담당자들이고, 저는 그 과정이 굴러가도록 운영을 담당했습니다.",
       features: [
         "참여기관 공개 모집과 서류·면접 심사",
         "기관별 맞춤형 방문 컨설팅 (회기당 2시간, 기관당 평균 50시간)",
@@ -894,8 +898,7 @@ const PROJECTS = [
     ],
     period: "2026.08 –",
     status: "운영",
-    tier: "featured",
-    featuredRank: 3,
+    tier: "major",
     category: ["디지털 전환", "운영 시스템"],
     role: ["기획", "개발"],
     tags: ["자가진단", "맞춤 커리큘럼", "오픈소스", "에이전트 스킬", "SOVAC 전시"],
@@ -962,7 +965,7 @@ const PROJECTS = [
     detail: {
       problem:
         "호봉 산정을 위한 경력 인정 기준은 서울시 처우개선 계획과 FAQ, 보건복지부 사회복지시설 관리안내에 나뉘어 있고, 전일제·유사경력(80%)·시간제마다 환산 방식이 달라 직접 계산하기 까다롭습니다.",
-      users: "경력기간을 미리 확인해 보고 싶은 사회복지사, 호봉 산정을 검토하는 기관 담당자",
+      users: "경력기간을 미리 확인해 보고 싶은 사회복지사, 호봉 산정을 검토하는 기관 담당자. 협회 회원광장에서 처우개선·경력 인정 문의에 답해 온 업무와 맞닿은 도구입니다.",
       roles: "계산 기준 정리와 화면 기획, 제작을 맡았습니다.",
       features: [
         "경력을 한 건씩 질문에 답하며 입력 — 적용 기준, 기관, 시작일, 마지막 인정일, 주당 근무시간",
@@ -1042,12 +1045,18 @@ const PROJECTS = [
     ],
     period: "2026.10",
     status: "공개",
-    tier: "major",
+    tier: "featured",
+    featuredRank: 3,
     category: ["디지털 전환", "참여형 경험"],
     role: ["기획", "제작"],
     tags: ["AI 교육", "실습 매뉴얼", "미션형 학습"],
     ai: ["Claude Code"],
-    featuredStory: null,
+    featuredStory: "협회 안의 클로드 유료 사용자들에게 공유한 실습 매뉴얼입니다. 마지막 단계는 Claude Code로 내 폴더의 엑셀 집계와 보고서를 자동화해 보는 미션입니다.",
+    metrics: [
+      { value: "10개", label: "단계별 실습 미션" },
+      { value: "3단계", label: "채팅 → 아티팩트 → Claude Code" },
+      { value: "협회 내부", label: "클로드 사용자에게 공유" },
+    ],
     visibility: "public",
     detail: {
       problem:
@@ -1171,14 +1180,91 @@ const PROJECTS = [
 ];
 
 /* AI 작업 방식 (§10.5) */
+/* 강점 카드 — 태니지먼트 진단(2026.07) 대표 강점 + 프로젝트로 확인한 실무 강점 */
+const STRENGTHS = [
+  {
+    kind: "대표 강점", ko: "창조·탐구", en: "Create · Explore", icon: "spark", theme: "gold",
+    desc: "새롭게 제안하고(창조), 깊이 파고들어 해결하는(탐구) 사람이라는 진단 결과입니다.",
+    chips: ["창의 · 정보수집", "양성 · 행동 · 비교 · 효율"], note: "새로운 길을 찾고",
+    projects: [["진단 시스템", "diagnosis-workflow"], ["해커톤 허브", "yeolmae-hackathon"]],
+  },
+  {
+    kind: "실무 강점", ko: "기획", en: "Plan", icon: "clipboard", theme: "blue",
+    desc: "신청·심사, 매뉴얼, 데이터 센터까지 대부분의 프로젝트를 흐름부터 직접 설계했습니다.",
+    chips: ["선발 절차 설계", "기준 정리"], note: "흐름부터 그리고",
+    projects: [["신청·심사 시스템", "yeolmae-apply"], ["매뉴얼 웹서비스", "smartwork-manual"]],
+  },
+  {
+    kind: "실무 강점", ko: "제작", en: "Build", icon: "pen", theme: "green",
+    desc: "기획에 그치지 않고 20개의 업무 도구를 Claude Code 등으로 직접 만들었습니다.",
+    chips: ["Claude Code", "업무 도구 20개"], note: "직접 만들고",
+    projects: [["데이터 센터", "data-center"], ["웹진 편집기", "webzine-editor"]],
+  },
+  {
+    kind: "실무 강점", ko: "운영", en: "Operate", icon: "dashboard", theme: "teal",
+    desc: "만든 것을 실제 업무에서 계속 운영하고 고칩니다. 데이터 센터는 60여 명이 쓰고 있습니다.",
+    chips: ["60여 명 실사용", "3개년 사업 운영"], note: "끝까지 돌보고",
+    projects: [["데이터 센터", "data-center"], ["사업 운영", "smartwork-program"]],
+  },
+  {
+    kind: "실무 강점", ko: "AI·자동화", en: "AI · Automation", icon: "flow", theme: "purple",
+    desc: "AI에 맡길 일과 사람이 판단할 일을 나누고, 반복되는 일을 자동화합니다.",
+    chips: ["Teams 에이전트", "AI 쓸 곳 가르기"], note: "반복은 맡기고",
+    projects: [["초안이", "chobani"], ["열똑이", "yeolttoki"]],
+  },
+  {
+    kind: "실무 강점", ko: "콘텐츠·사람", en: "Content · People", icon: "hand", theme: "pink",
+    desc: "어려운 내용을 동료와 이용자가 이해하는 말로 옮깁니다. 실습 매뉴얼, 사내 강의, 영상 자서전.",
+    chips: ["사내 강사", "실습 매뉴얼"], note: "사람의 말로",
+    projects: [["클로드 사용 매뉴얼", "claude-manual"], ["콘텐츠·홍보 기획", "welfare-content"]],
+  },
+];
+
+/* 해 온 일 — 평소 맡아 온 일을 네 가지로 묶고 근거 프로젝트를 연결 */
+const FIT = [
+  {
+    area: "모집하고, 선발하고, 계약하는 일",
+    items: [
+      { text: "공고부터 서류심사(6명)·면접심사(4명), 점수 보정, 최종 선정까지 69곳의 선발 전 과정 운영", links: [["신청·심사 시스템", "yeolmae-apply"]] },
+      { text: "강사 계약 체결과 참여기관 협약 진행, 협회 계약서 양식에 맞춘 전자서명 기능 제작", links: [["데이터 센터", "data-center"], ["사업 운영", "smartwork-program"]] },
+    ],
+  },
+  {
+    area: "기준을 세우고, 공정하게 적용하는 일",
+    items: [
+      { text: "협회 회원광장에서 처우개선·경력 인정 문의 응답", links: [] },
+      { text: "전일제·유사경력(80%)·시간제 경력을 지침대로 환산하는 경력기간 계산기 제작", links: [["경력기간 계산기", "career-calculator"]] },
+      { text: "면접 조가 달라도 공정하게 비교하도록 심사위원별 점수를 표준화해 순위 산출", links: [["신청·심사 시스템", "yeolmae-apply"]] },
+    ],
+  },
+  {
+    area: "조직 안에서, 함께 일하는 사람을 위한 일",
+    items: [
+      { text: "직원행복위원회에서 직원 의견을 모아 노사회의 진행", links: [] },
+      { text: "스마트워크 위원회 정기회의 운영 — 조직의 '일하는 방식'을 바꾸는 사업을 3년째 담당", links: [["사업 운영", "smartwork-program"]] },
+      { text: "사내 강사로 직원 교육 — 동료가 Teams에 스스로 적응하도록 만든 셀프 학습 앱, 협회 안의 클로드 사용자를 위한 실습 매뉴얼", links: [["Teams 학습 앱", "teams-training"], ["클로드 사용 매뉴얼", "claude-manual"]] },
+      { text: "협약식·성과공유회·네트워킹 캠퍼스 등 행사 운영과 QR 출석 자동화", links: [["행사 QR 출석", "attendance"]] },
+    ],
+  },
+  {
+    area: "반복되는 일은 도구로",
+    items: [
+      { text: "Claude Code 등 AI 도구로 업무 도구를 직접 만들어 실제 업무에 사용 — 운영 시스템 사용자 60여 명", links: [["데이터 센터", "data-center"], ["웹진 편집기", "webzine-editor"]] },
+      { text: "협회 메신저인 Microsoft Teams 안에서 동작하는 업무 에이전트를 직접 만들어 연결", links: [["초안이", "chobani"], ["열똑이", "yeolttoki"]] },
+      { text: "사람의 정보는 가짜 정보로 먼저 시험하고, 접근 제한과 외부 전송 여부부터 확인", links: [["클로드 사용 매뉴얼", "claude-manual"]] },
+    ],
+  },
+];
+
 const AI_FLOW = [
   { step: "문제 발견", tool: "현장 경험", human: "무엇이 문제인지 정의" },
   { step: "탐색·비교", tool: "Gemini · GPT · Claude", human: "답변을 교차 확인" },
   { step: "구조화", tool: "OpenAI Codex", human: "요구사항과 PRD 확정" },
   { step: "AI 쓸 곳 가르기", tool: "규칙 기반 계산 · AI 모델", human: "사실 전달·판정은 AI 없이, 글쓰기·변환에만 AI" },
   { step: "제작", tool: "Claude Code · Codex · Antigravity · ChatGPT Sites", human: "결과 검증과 수정 판단" },
-  { step: "업무 연결", tool: "AppSheet · Apps Script · Power Automate · Teams 에이전트(Claude API)", human: "실제 업무 흐름에 맞추고, 입력 정보가 어디로 가는지 확인" },
-  { step: "확인·운영", tool: "Looker Studio", human: "최종 검증과 운영 책임" },
+  { step: "데이터 저장", tool: "Google Sheets · Supabase · Firebase", human: "누가 어떤 정보를 볼 수 있는지, 접근 권한부터 설정" },
+  { step: "업무 연결", tool: "AppSheet · Apps Script · Power Automate · Teams 에이전트", human: "실제 업무 흐름에 맞추고, 입력 정보가 어디로 가는지 확인" },
+  { step: "확인·운영", tool: "GitHub · Vercel · 운영 대시보드", human: "배포 전 검증, 사용 현황 확인과 운영 책임" },
 ];
 
 /* =========================================================

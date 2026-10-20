@@ -158,10 +158,21 @@ a:focus-visible, button:focus-visible {
 }
 
 /* ---------- 스탯 카운터 (①) ---------- */
-.stats-band { border-top: 1px solid var(--line); background: color-mix(in srgb, var(--tint) 45%, var(--bg)); }
+.stats-band { border-top: 1px solid var(--line); background: color-mix(in srgb, var(--tint) 45%, var(--bg)); padding-top: 26px; }
+.stats-cap {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 10px;
+  width: fit-content; max-width: 100%; margin: 0 auto; padding: 8px 16px; border-radius: 999px;
+  background: var(--card); border: 1px solid color-mix(in srgb, var(--teal) 30%, var(--line));
+  color: var(--ink); font-size: 0.88rem; text-align: center; word-break: keep-all;
+}
+.stats-cap:hover { text-decoration: none; border-color: var(--teal); }
+.stats-cap strong { font-weight: 800; }
+.stats-book { color: var(--teal); display: inline-flex; }
+.stats-book svg { width: 18px; height: 18px; }
+.stats-go { color: var(--teal); font-weight: 700; font-size: 0.82rem; }
 .stats-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 8px; padding-top: 36px; padding-bottom: 36px;
+  gap: 8px; padding-top: 22px; padding-bottom: 34px;
 }
 .stat { text-align: center; }
 .stat-num {
@@ -273,6 +284,148 @@ a:focus-visible, button:focus-visible {
   .step::before { left: 44px; right: -8px; top: 17px; bottom: auto; width: auto; height: 2px; }
   .step-body { padding-top: 0; }
 }
+
+/* ---------- 직무 연결 ---------- */
+.fit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.fit-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px 24px; box-shadow: var(--shadow);
+}
+.fit-card h3 {
+  font-size: 1.02rem; font-weight: 800; color: var(--teal); margin-bottom: 12px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--line); word-break: keep-all;
+}
+.fit-card ul { list-style: none; display: grid; gap: 12px; }
+.fit-card li { font-size: 0.92rem; line-height: 1.6; word-break: keep-all; display: grid; gap: 4px; padding-left: 14px; position: relative; }
+.fit-card li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 5px; border-radius: 50%; background: var(--teal);
+}
+.fit-links { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.fit-links a { font-size: 0.8rem; font-weight: 700; }
+.fit-gap {
+  margin-top: 20px; font-size: 0.86rem; color: var(--muted); word-break: keep-all;
+  padding: 12px 16px; border: 1px dashed var(--line); border-radius: var(--radius); background: var(--card);
+}
+
+/* ---------- 강점 카드 덱 ---------- */
+#strength { overflow: hidden; }
+.strength-wrap { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; align-items: center; }
+.strength-side .section-head { margin-bottom: 18px; }
+.strength-thesis { font-size: 0.95rem; color: var(--muted); margin-bottom: 18px; }
+.strength-thesis strong { color: var(--teal); }
+.strength-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.s-tab {
+  border: 1px solid var(--line); background: var(--card); color: var(--muted);
+  border-radius: 999px; padding: 7px 14px; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  transition: all 0.15s;
+}
+.s-tab[aria-selected="true"] { color: #fff; border-color: transparent; background: var(--s-main); }
+.deck-controls { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.deck-btn {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line);
+  background: var(--card); color: var(--ink); font-size: 1.1rem; cursor: pointer;
+}
+.deck-btn:hover { border-color: var(--teal); color: var(--teal); }
+.deck-count { font-family: ui-monospace, Consolas, monospace; font-size: 0.85rem; color: var(--muted); }
+.strength-more { font-size: 0.85rem; font-weight: 600; }
+
+/* 카드별 색 */
+.theme-gold   { --s-main: #e9a93a; --s-soft: #fff3d8; --s-deep: #b8790f; --s-ink: #9a6408; }
+.theme-blue   { --s-main: #4c8df6; --s-soft: #e7f0ff; --s-deep: #2c63d1; --s-ink: #1f56c2; }
+.theme-green  { --s-main: #2fbf77; --s-soft: #e2f8ec; --s-deep: #149157; --s-ink: #0f7d49; }
+.theme-teal   { --s-main: #1aaeaa; --s-soft: #dcf5f4; --s-deep: #0a8783; --s-ink: #087572; }
+.theme-purple { --s-main: #8b6cf0; --s-soft: #efeaff; --s-deep: #6347d6; --s-ink: #5638c2; }
+.theme-pink   { --s-main: #ee6f9b; --s-soft: #ffe8f0; --s-deep: #cf4877; --s-ink: #b83a66; }
+
+.deck { position: relative; height: 560px; outline: none; touch-action: pan-y; user-select: none; }
+.s-card {
+  position: absolute; left: 0; top: 0; width: min(400px, 100%); height: 540px;
+  background: var(--card); border-radius: 28px; padding: 14px;
+  box-shadow: 0 1px 2px rgba(16,24,20,.06), 0 24px 48px -18px rgba(16,40,30,.28);
+  border: 1px solid color-mix(in srgb, var(--s-main) 18%, var(--line));
+  display: flex; flex-direction: column; cursor: grab;
+  transform-origin: 50% 90%;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
+}
+.deck.dragging .s-card { transition: none; }
+.s-card:not(.is-front) { cursor: pointer; }
+.s-panel {
+  position: relative; flex: 1; border-radius: 20px; overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 30% 20%, #fff 0%, transparent 60%),
+    linear-gradient(160deg, var(--s-soft), color-mix(in srgb, var(--s-soft) 55%, #fff));
+}
+[data-theme="dark"] .s-panel {
+  background: radial-gradient(120% 90% at 30% 20%, color-mix(in srgb, var(--s-main) 22%, transparent), transparent 60%),
+    linear-gradient(160deg, color-mix(in srgb, var(--s-main) 18%, #111a15), #111a15);
+}
+.s-kind {
+  position: absolute; left: 14px; top: 14px; display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.82); backdrop-filter: blur(6px); color: #1a221e;
+  border-radius: 999px; padding: 6px 12px; font-size: 0.78rem; font-weight: 700;
+}
+.s-kind i { width: 8px; height: 8px; border-radius: 50%; background: var(--s-main); box-shadow: 0 0 0 3px color-mix(in srgb, var(--s-main) 25%, transparent); }
+.s-num {
+  position: absolute; right: 14px; top: 14px; font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.75rem; font-weight: 700; color: var(--s-ink); background: rgba(255,255,255,.7);
+  border-radius: 10px; padding: 6px 9px;
+}
+.s-chip {
+  position: absolute; z-index: 2; background: rgba(255,255,255,.78); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.9); color: #1a221e; border-radius: 12px;
+  padding: 7px 11px; font-size: 0.78rem; font-weight: 700; box-shadow: 0 6px 16px -8px rgba(0,0,0,.18);
+  white-space: nowrap;
+}
+.s-chip.c1 { left: 14px; top: 34%; transform: rotate(-4deg); }
+.s-chip.c2 { right: 14px; top: 50%; transform: rotate(4deg); }
+.s-spark {
+  position: absolute; right: 30%; top: 18%; width: 16px; height: 16px; background: var(--s-main);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  opacity: .7; animation: s-twinkle 3s ease-in-out infinite;
+}
+.s-blob {
+  position: absolute; left: 50%; top: 52%; width: 150px; height: 138px; margin: -69px 0 0 -75px;
+  border-radius: 46% 54% 52% 48% / 52% 44% 56% 48%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255,255,255,.95) 0 8%, rgba(255,255,255,0) 28%),
+    radial-gradient(circle at 68% 76%, var(--s-deep), transparent 60%),
+    radial-gradient(circle at 45% 45%, color-mix(in srgb, var(--s-main) 70%, #fff), var(--s-main));
+  box-shadow: inset -10px -14px 26px color-mix(in srgb, var(--s-deep) 55%, transparent),
+              inset 8px 10px 20px rgba(255,255,255,.55);
+  display: flex; align-items: center; justify-content: center;
+  animation: s-float 6s ease-in-out infinite, s-morph 10s ease-in-out infinite;
+}
+.s-blob-icon { color: rgba(255,255,255,.95); filter: drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+.s-blob-icon svg { width: 54px; height: 54px; stroke-width: 1.9; }
+.s-shadow {
+  position: absolute; left: 50%; top: 52%; width: 120px; height: 18px; margin: 70px 0 0 -60px;
+  border-radius: 50%; background: color-mix(in srgb, var(--s-deep) 30%, transparent); filter: blur(8px);
+  animation: s-shadow 6s ease-in-out infinite;
+}
+.s-note {
+  position: absolute; right: 20px; bottom: 16px; font-family: "Nanum Pen Script", cursive;
+  font-size: 1.45rem; color: var(--s-ink); transform: rotate(-6deg);
+}
+.s-note::before { content: "↗"; display: inline-block; margin-right: 4px; font-family: inherit; }
+.s-body { padding: 16px 8px 4px; }
+.s-body h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+.s-body h3 small { font-size: 0.8rem; font-weight: 600; color: var(--s-ink); margin-left: 6px; letter-spacing: 0; }
+.s-body p { font-size: 0.9rem; color: var(--muted); margin-top: 6px; word-break: keep-all; min-height: 3em; }
+.s-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.s-links a {
+  font-size: 0.82rem; font-weight: 700; color: #fff; background: #1b2a22;
+  border-radius: 999px; padding: 8px 14px;
+}
+[data-theme="dark"] .s-links a { background: var(--s-main); color: #0e1210; }
+.s-links a:hover { text-decoration: none; opacity: .88; }
+
+@keyframes s-float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+@keyframes s-morph {
+  0%,100% { border-radius: 46% 54% 52% 48% / 52% 44% 56% 48%; }
+  50% { border-radius: 54% 46% 44% 56% / 46% 56% 44% 54%; }
+}
+@keyframes s-shadow { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(.82); opacity: .6; } }
+@keyframes s-twinkle { 0%,100% { transform: scale(.8) rotate(0); opacity: .5; } 50% { transform: scale(1.15) rotate(20deg); opacity: .9; } }
 
 /* ---------- 대표 프로젝트 카드 ---------- */
 .featured-list { display: grid; gap: 28px; }
@@ -593,6 +746,7 @@ a:focus-visible, button:focus-visible {
   .section { padding: 56px 0; }
   .section-head { margin-bottom: 28px; }
 
+  .stats-cap { border-radius: 14px; font-size: 0.82rem; padding: 10px 14px; }
   .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; padding-top: 28px; padding-bottom: 28px; }
   .stat-num { font-size: 1.45rem; }
   .stat-label { font-size: 0.74rem; word-break: keep-all; }
@@ -622,6 +776,13 @@ a:focus-visible, button:focus-visible {
   .archive-row .side { grid-column: 2; flex-direction: row; align-items: center; gap: 10px; margin-top: 6px; }
 
   .ai-step { grid-template-columns: 1fr; gap: 6px; }
+  .strength-wrap { grid-template-columns: 1fr; gap: 24px; }
+  .deck { height: 520px; }
+  .s-card { width: calc(100% - 48px); height: 500px; }
+  .s-blob { width: 128px; height: 118px; margin: -59px 0 0 -64px; }
+  .s-blob-icon svg { width: 46px; height: 46px; }
+  .fit-grid { grid-template-columns: 1fr; gap: 14px; }
+  .fit-card { padding: 18px 18px; }
 
   .media-list { margin-bottom: 36px; }
   /* 영상: 가로로 넘겨 보는 카드 */
