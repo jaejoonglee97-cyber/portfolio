@@ -576,7 +576,7 @@ const PROJECTS = [
     category: ["운영 시스템", "디지털 전환"],
     role: ["기획", "개발", "운영"],
     tags: ["업무 통합", "교육 평가", "현장 모니터링", "전자서명", "정산·증빙"],
-    ai: ["Groq"],
+    ai: ["Gemini 3.8"],
     featuredStory: "강사 배정과 계약 전자서명, 정산·증빙, 가입 승인과 권한 관리까지 — 60여 명이 실제 업무에 쓰는 운영 시스템을 직접 만들고, 지금도 운영하며 고치고 있습니다.",
     visibility: "public",
     metrics: [
@@ -615,7 +615,7 @@ const PROJECTS = [
       nextTime:
         "기능을 더 붙이기 전에, 실제 사용자가 어느 화면에서 멈추는지 먼저 확인하려 합니다. 이번에는 필요해 보이는 기능을 먼저 만들고 나중에 단순화했는데, 순서를 바꾸면 만들지 않아도 될 기능을 미리 걸러낼 수 있을 것 같습니다.",
       stack:
-        "Next.js, TypeScript, NextAuth(인증), Prisma + Supabase(Postgres), 메일 발송, Recharts / Groq(AI 보조·리포트)",
+        "Next.js, TypeScript, NextAuth(인증), Prisma + Supabase(Postgres), 메일 발송, Recharts / Gemini 3.8(AI 보조·리포트)",
       gallery: [
         { src: "assets/img/datacenter-institution.png", caption: "참여 기관 화면 — 씨앗에서 열매까지 교육 이수 진행을 성장 단계로 표현" },
         { src: "assets/img/datacenter-instructor.png", caption: "강사 화면 — 출강 기록 입력과 가능 시간 등록" },

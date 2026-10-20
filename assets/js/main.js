@@ -137,7 +137,7 @@
       return (p.status === "개인 프로젝트" ? 10 : 0) + (TIER_RANK[p.tier] != null ? TIER_RANK[p.tier] : 5);
     }
     var archiveOrder = publicProjects.slice().sort(function (a, b) {
-      return rank(a) - rank(b) || parseInt(a.no, 10) - parseInt(b.no, 10);
+      return rank(a) - rank(b) || (a.featuredRank || 99) - (b.featuredRank || 99) || parseInt(a.no, 10) - parseInt(b.no, 10);
     });
 
     archiveOrder.forEach(function (p) {
@@ -154,7 +154,7 @@
     });
 
     // 처음에는 일부만 보이고 '모두 보기'로 펼침
-    var FOLD_AT = 10;
+    var FOLD_AT = window.matchMedia("(max-width: 800px)").matches ? 6 : 10;
     var rows = archiveList.querySelectorAll(".archive-row");
     var moreBox = document.createElement("div");
     moreBox.className = "archive-more";
@@ -305,53 +305,106 @@
     });
     var tabs = tabsBox ? tabsBox.querySelectorAll(".s-tab") : [];
 
+    // 카드 위치: 앞 카드(0), 뒤로 쌓인 카드(1~3), 그 뒤는 맨 뒤에 숨김
+    function stackPose(k) {
+      k = Math.min(k, 3);
+      return "translate3d(" + (k * 30) + "px," + (k * 8) + "px,0) scale(" + (1 - k * 0.06) + ")";
+    }
+    var EXIT_L = "translate3d(-118%,24px,0) rotate(-9deg) scale(.94)";
+    var EXIT_R = "translate3d(118%,24px,0) rotate(9deg) scale(.94)";
+    var leaving = -1, leavingPose = EXIT_L, leaveTimer = null;
+
     function layoutDeck(dragX) {
+      dragX = dragX || 0;
+      var pull = Math.min(Math.abs(dragX) / 160, 1);
       cards.forEach(function (c, i) {
         var off = (i - cur + N) % N;
-        var tr, op = 1, z = N - off;
-        if (off === 0) {
-          tr = "translateX(" + (dragX || 0) + "px) rotate(" + ((dragX || 0) / 40) + "deg)";
-        } else if (off === N - 1) {
-          // 방금 넘긴 카드: 왼쪽으로 빠져나감
-          tr = "translateX(-115%) rotate(-10deg) scale(.92)"; op = 0; z = 0;
+        var tr, op, z;
+        if (i === leaving) {
+          // 넘긴 카드는 맨 위에 둔 채로 밖으로 빠져나감
+          tr = leavingPose; op = 0; z = N + 2;
+        } else if (off === 0) {
+          tr = "translate3d(" + dragX + "px,0,0) rotate(" + (dragX / 30) + "deg)";
+          op = 1; z = N + 1;
         } else {
-          var k = Math.min(off, 3);
-          tr = "translateX(" + (k * 34) + "px) translateY(" + (k * 6) + "px) scale(" + (1 - k * 0.07) + ")";
-          op = off > 3 ? 0 : 1 - k * 0.12;
+          // 끄는 동안 바로 뒤 카드가 조금씩 앞으로 나옴
+          var k = off - (off === 1 ? pull : 0);
+          tr = stackPose(k);
+          op = off > 3 ? 0 : 1 - Math.min(k, 3) * 0.14;
+          z = N - off;
         }
         c.style.transform = tr;
         c.style.opacity = op;
         c.style.zIndex = z;
-        c.classList.toggle("is-front", off === 0);
+        c.classList.toggle("is-front", off === 0 && i !== leaving);
         c.setAttribute("aria-hidden", off === 0 ? "false" : "true");
         c.querySelectorAll("a").forEach(function (a) { a.tabIndex = off === 0 ? 0 : -1; });
       });
       tabs.forEach(function (t, i) { t.setAttribute("aria-selected", i === cur ? "true" : "false"); });
       if (countEl2) countEl2.textContent = (cur + 1) + " / " + N;
     }
-    function go(i) { cur = (i + N) % N; layoutDeck(0); }
-    document.getElementById("deckPrev").addEventListener("click", function () { go(cur - 1); });
-    document.getElementById("deckNext").addEventListener("click", function () { go(cur + 1); });
+
+    function go(i, dir) {
+      var next = (i + N) % N;
+      if (next === cur) { layoutDeck(0); return; }
+      if (!dir) dir = ((next - cur + N) % N) <= N / 2 ? 1 : -1;
+      var prevCur = cur;
+      clearTimeout(leaveTimer);
+      if (dir > 0) {
+        // 앞으로: 지금 카드가 왼쪽으로 빠져나가고 뒤 카드가 앞으로
+        leaving = prevCur; leavingPose = EXIT_L;
+      } else {
+        // 뒤로: 새 카드가 왼쪽에서 들어옴 (시작 위치를 먼저 잡고 전환)
+        leaving = -1;
+        var inc = cards[next];
+        inc.style.transition = "none";
+        inc.style.transform = EXIT_L; inc.style.opacity = "0"; inc.style.zIndex = N + 2;
+        void inc.offsetWidth;
+        inc.style.transition = "";
+      }
+      cur = next;
+      layoutDeck(0);
+      leaveTimer = setTimeout(function () {
+        if (leaving < 0) return;
+        // 빠져나간 카드는 보이지 않는 채로 맨 뒤로 옮김
+        var c = cards[leaving];
+        c.style.transition = "none";
+        leaving = -1;
+        layoutDeck(0);
+        void c.offsetWidth;
+        c.style.transition = "";
+      }, 560);
+    }
+    document.getElementById("deckPrev").addEventListener("click", function () { go(cur - 1, -1); });
+    document.getElementById("deckNext").addEventListener("click", function () { go(cur + 1, 1); });
     deck.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight") { go(cur + 1); e.preventDefault(); }
-      if (e.key === "ArrowLeft") { go(cur - 1); e.preventDefault(); }
+      if (e.key === "ArrowRight") { go(cur + 1, 1); e.preventDefault(); }
+      if (e.key === "ArrowLeft") { go(cur - 1, -1); e.preventDefault(); }
     });
 
-    // 손가락·마우스로 끌어서 넘기기
-    var startX = null, dx = 0, dragging = false;
+    // 손가락·마우스로 끌어서 넘기기 (세로 스크롤은 그대로 둠)
+    var startX = 0, startY = 0, dx = 0, dragging = false, decided = false, horiz = false;
     deck.addEventListener("pointerdown", function (e) {
       if (!e.target.closest(".s-card.is-front") || e.target.closest("a")) return;
-      startX = e.clientX; dx = 0; dragging = true; deck.classList.add("dragging");
+      startX = e.clientX; startY = e.clientY; dx = 0; dragging = true; decided = false; horiz = false;
     });
     window.addEventListener("pointermove", function (e) {
       if (!dragging) return;
-      dx = e.clientX - startX; layoutDeck(dx);
+      var mx = e.clientX - startX, my = e.clientY - startY;
+      if (!decided && (Math.abs(mx) > 6 || Math.abs(my) > 6)) {
+        decided = true; horiz = Math.abs(mx) > Math.abs(my);
+        if (horiz) deck.classList.add("dragging"); else dragging = false;
+      }
+      if (horiz) { dx = mx; layoutDeck(dx); }
     });
-    window.addEventListener("pointerup", function () {
+    function endDrag() {
       if (!dragging) return;
       dragging = false; deck.classList.remove("dragging");
-      if (dx < -60) go(cur + 1); else if (dx > 60) go(cur - 1); else layoutDeck(0);
-    });
+      if (!horiz) return;
+      if (dx < -60) go(cur + 1, 1); else if (dx > 60) go(cur - 1, -1); else layoutDeck(0);
+    }
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
     layoutDeck(0);
   }
 
@@ -382,30 +435,6 @@
   /* ---------- 최종 업데이트 ---------- */
   var updated = document.getElementById("lastUpdated");
   if (updated) updated.textContent = SITE.updated;
-
-  /* ---------- 방문자 유형별 소개 토글 ---------- */
-  var INTROS = {
-    hiring:
-      "사업 운영에서 모집·선발, 계약, 정산, 교육을 맡아 왔고, 직원행복위원회와 노사회의, 사내 강사로 조직 안의 일도 함께 해 왔습니다. 반복되는 일은 Claude Code로 도구를 만들어 실제 업무에 쓰고 있습니다.",
-    manager:
-      "제도를 새로 만들기보다, 지금 있는 제도가 빠짐없이 정확하게 돌아가도록 하는 데 먼저 힘쓰겠습니다. 담당자가 바뀌어도 이어지도록 절차와 기록을 남깁니다.",
-    field:
-      "반복되는 행정은 제가 먼저 덜어 보겠습니다. 불편한 점을 말씀해 주시면, 제도와 도구 양쪽에서 가장 간단한 방법을 찾아 함께 바꿉니다.",
-  };
-  var introTabs = document.querySelectorAll(".is-tab");
-  var introMsg = document.getElementById("introMsg");
-  if (introTabs.length && introMsg) {
-    var setIntro = function (key) {
-      introMsg.textContent = INTROS[key] || "";
-      introTabs.forEach(function (t) {
-        t.setAttribute("aria-pressed", t.getAttribute("data-intro") === key ? "true" : "false");
-      });
-    };
-    introTabs.forEach(function (t) {
-      t.addEventListener("click", function () { setIntro(t.getAttribute("data-intro")); });
-    });
-    setIntro("hiring");
-  }
 
   /* ---------- 강점 네트워크 iframe 높이 자동 조정 ---------- */
   window.addEventListener("message", function (e) {

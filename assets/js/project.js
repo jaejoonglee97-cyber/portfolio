@@ -40,7 +40,15 @@
   }
 
   /* ---------- 프로젝트 찾기 ---------- */
-  var publicProjects = PROJECTS.filter(function (p) { return p.visibility === "public"; });
+  // 이전/다음 이동은 홈 아카이브와 같은 순서(업무 비중 → 번호)
+  var TIER_RANK = { featured: 0, major: 1, minor: 2, rnd: 3, experiment: 4 };
+  function rank(p) {
+    return (p.status === "개인 프로젝트" ? 10 : 0) + (TIER_RANK[p.tier] != null ? TIER_RANK[p.tier] : 5);
+  }
+  var publicProjects = PROJECTS.filter(function (p) { return p.visibility === "public"; })
+    .sort(function (a, b) {
+      return rank(a) - rank(b) || (a.featuredRank || 99) - (b.featuredRank || 99) || parseInt(a.no, 10) - parseInt(b.no, 10);
+    });
   var slug = new URLSearchParams(location.search).get("slug");
   var idx = -1;
   publicProjects.forEach(function (p, i) { if (p.slug === slug) idx = i; });
