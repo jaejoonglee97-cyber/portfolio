@@ -72,7 +72,7 @@ const SITE = {
   // 이메일은 스팸 수집 방지를 위해 분리 보관 후 JS로 조립
   emailUser: "client_first",
   emailDomain: "naver.com",
-  updated: "2026-10-20",
+  updated: "2026-10-27",
 };
 
 const PROJECTS = [
@@ -995,7 +995,10 @@ const PROJECTS = [
     image: "assets/img/license-statistics.png",
     title: "사회복지사 자격증 발급현황 대시보드",
     summary: "서울 사회복지사 자격증·회원증 발급현황을 전년 같은 기간과 비교해 보여 주고, 회의에 바로 쓰는 A4 한 장 보고서로 뽑아 주는 대시보드",
-    links: [{ label: "라이브 보기", url: "https://sasw-statistics-restored.sasw-4929.chatgpt.site/" }],
+    links: [
+      { label: "라이브 보기", url: "https://sasw-statistics-restored.sasw-4929.chatgpt.site/" },
+      { label: "지역 비교 예시 (서울·경기·부산)", url: "https://sasw-statistics-restored.sasw-4929.chatgpt.site/?view=focus&period=2026-09&metric=issuance&regions=%EA%B2%BD%EA%B8%B0%2C%EB%B6%80%EC%82%B0", type: "repo" },
+    ],
     period: "2026.09 –",
     status: "AI 실험",
     tier: "experiment",
@@ -1014,7 +1017,9 @@ const PROJECTS = [
         "핵심 지표 — 자격증 발급, 회원증 발급, 전국 대비 비중과 순위, 총 누적 발급",
         "전년 같은 기간·전년 말과 비교한 증감",
         "숫자를 자동으로 풀어 쓴 '세 문장으로 읽는 변화'",
-        "회원증 발급·자격증 재발급의 월별 추이와 지역별 비교",
+        "회원증 발급·자격증 재발급의 월별 추이 — 올해와 지난해 같은 달을 한 그래프에",
+        "지역별 맞춤 비교 — 서울을 기준으로 최대 3개 지역과 비교 항목을 골라 차이·전국 순위·비중을 표로",
+        "고른 지역과 항목이 주소에 그대로 담겨, 링크만 보내면 같은 비교 화면이 열림",
         "제목·월별 항목·담당자 메모를 넣어 A4 한 장 보고서로 PDF 저장",
         "기존 상세 통계(연도별·전국 비교·원본 자료실)는 '전체 자료 살펴보기'로 연결",
       ],
@@ -1025,6 +1030,7 @@ const PROJECTS = [
       result: "발급 통계를 서울 중심으로 한 화면에서 살펴보고, 같은 내용을 회의용 한 장 보고서로 바로 뽑을 수 있게 했습니다.",
       stack: "ChatGPT Sites(제작·배포)",
       gallery: [
+        { src: "assets/img/license-statistics-compare.jpg", caption: "지역별 맞춤 비교 — 서울 기준으로 경기·부산을 골라 발급 건수·차이·전국 순위·비중 비교" },
         { src: "assets/img/license-statistics.png", caption: "현황과 변화 — 자격증·회원증 발급, 전국 비중, 누적 발급과 세 문장 요약 (2026.09.30 기준)" },
         { src: "assets/img/license-statistics-report.png", caption: "한 장 보고서 — 제목·월별 항목·메모를 넣고 A4로 미리 본 뒤 PDF 저장" },
         { src: "assets/img/license-statistics-regions.png", caption: "상세 통계 · 전국 비교 — 17개 시도 발급 순위와 두 지역 등급별 비교" },
@@ -1175,6 +1181,101 @@ const PROJECTS = [
         { src: "assets/img/grace-cookie.png", caption: "홈 화면 — 맛별 쿠키 고르기, 모은 쿠키 비율, 오늘의 쿠키" },
       ],
       note: "사회복지 업무와 무관한 개인 실험입니다. 새 AI 모델(Gemini Argon)의 앱 제작 능력을 시험하려고 만들었습니다.",
+    },
+  },
+  {
+    slug: "ai-between-us",
+    no: "25",
+    icon: "chat",
+    image: "assets/img/ai-between-us.jpg",
+    title: "AI와 우리 사이",
+    summary: "AI를 두고 현장이 품는 질문 15개를 골라, 여러 필자의 관점과 조사 결과를 출처와 함께 이어 읽게 한 생각 아카이브",
+    links: [{ label: "라이브 보기", url: "https://ai-between-us.sasw-4929.chatgpt.site/" }],
+    period: "2026.10 –",
+    status: "운영",
+    tier: "major",
+    category: ["콘텐츠·홍보", "디지털 전환"],
+    role: ["기획", "편집", "제작"],
+    tags: ["AI 리터러시", "콘텐츠 큐레이션", "출처 표기"],
+    ai: ["ChatGPT Sites"],
+    featuredStory: null,
+    visibility: "public",
+    metrics: [
+      { value: "15개", label: "생각의 시작이 되는 질문" },
+      { value: "62편", label: "함께 읽은 칼럼·연재·조사자료" },
+      { value: "매월", label: "남긴 질문 검토 후 공개" },
+    ],
+    detail: {
+      problem:
+        "AI를 업무에 쓰기 시작하면서 '이 내용을 붙여넣어도 될까', 'AI가 틀리면 누가 책임질까' 같은 고민이 늘었지만, 그에 대한 좋은 글들은 여러 칼럼과 연재, 조사 보고서에 흩어져 있었습니다. 현장 실무자가 자기 고민에서 출발해 여러 관점을 차분히 읽어 볼 곳이 마땅치 않았습니다.",
+      users: "AI를 쓰기 시작했거나 망설이고 있는 비영리·사회복지 현장 실무자",
+      roles: "질문 선정과 자료 수집, 편집 원칙 설계, 사이트 제작을 맡은 개인 기획 프로젝트입니다.",
+      features: [
+        "일과 삶, 정보와 신뢰, 검증과 책임 등 15개 질문 — 질문을 골라 들어가는 방식",
+        "질문마다 같은 흐름: 현장의 가상 장면 → 서로 다른 필자의 관점(편집 요약과 원문 링크) → 두 관점을 잇는 편집 해설 → 조사 결과 → 내게 남는 질문 → 이어지는 질문",
+        "조사 결과에는 조사 대상·기간·방식·원문 쪽수와 해석의 한계를 함께 표시",
+        "칼럼 46편, 협회 디지털 연재 9편, 교육 칼럼 6편, 조사 발표자료 1편의 출처 목록",
+        "질문 남기기 — 익명으로 받아 매월 검토하고, 근거가 있을 때만 출처를 붙여 새 질문으로 공개",
+        "질문 주소 복사로 공유, 계정 없이 읽기",
+      ],
+      process:
+        "ChatGPT Sites로 만들었습니다. 먼저 칼럼과 연재, 조사 자료를 모아 읽고, 현장에서 실제로 자주 듣는 고민을 질문 15개로 추렸습니다. 그다음 질문마다 서로 다른 자리에서 본 관점 두 개를 골라 짧게 요약하고, 원문으로 바로 갈 수 있게 연결했습니다.",
+      trial:
+        "남의 글을 요약해 싣는 사이트라, 무엇이 원문이고 무엇이 편집인지부터 구분했습니다. 필자 관점은 직접 인용이 아니라 '편집 요약'으로 표시하고, 연구 결과는 조사 대상과 한계를 함께 적어 일반화되지 않게 했습니다. 현장 장면은 가상이라는 점을 밝히고, 검증되지 않은 숫자는 싣지 않았습니다. 방문 분석 도구도 쓰지 않습니다.",
+      result: "AI를 둘러싼 막연한 고민을 질문 하나에서 시작해, 여러 관점과 근거를 따라 스스로 생각해 볼 수 있는 공간으로 공개했습니다.",
+      alternatives:
+        "질문을 입력하면 AI가 바로 답해 주는 챗봇으로 만드는 방법도 있었습니다. 하지만 그러면 근거 없는 답을 그럴듯하게 지어낼 위험이 있고, 이 사이트가 다루는 고민과도 맞지 않았습니다. 그래서 실제 원문에서 관점을 골라 잇는 방식으로 만들고, 원문에서 근거를 찾지 못한 질문은 답을 지어내지 않고 보류하기로 했습니다.",
+      nextTime:
+        "자료가 늘어나면 질문과 출처를 사람이 직접 관리하는 데 품이 많이 듭니다. 질문 남기기로 들어오는 고민이 쌓이면, 어떤 질문이 많이 들어오는지 보고 다음 질문을 고르는 기준부터 정리하려 합니다.",
+      stack: "ChatGPT Sites(제작·배포) / 원문 출처 정리와 편집은 직접",
+      gallery: [
+        { src: "assets/img/ai-between-us.jpg", caption: "첫 화면 — 흐르는 질문 카드 중 마음에 걸리는 하나를 골라 들어감" },
+        { src: "assets/img/ai-between-us-question.jpg", caption: "질문 페이지 — 현장의 가상 장면에서 시작해 서로 다른 관점으로 이어짐" },
+        { src: "assets/img/ai-between-us-guestbook.jpg", caption: "질문 남기기 — 개인정보는 적지 않도록 안내하고, 검토 후 익명으로 공개" },
+      ],
+      note: "개인 기획 프로젝트로, 자료 제공기관의 공식 서비스가 아닙니다. 원문과 이미지의 권리는 각 권리자에게 있습니다.",
+    },
+  },
+  {
+    slug: "nihao-step",
+    no: "26",
+    icon: "book",
+    image: "assets/img/nihao-step.jpg",
+    title: "니하오 한 걸음 — 중국어 문장 놀이터",
+    summary: "중국어 한 문장을 듣고, 맞추고, 단어를 바꿔 조립하며 익히는 개인 학습 앱",
+    links: [{ label: "라이브 보기", url: "https://nihao-step.sasw-4929.chatgpt.site/" }],
+    period: "2026.10",
+    status: "개인 프로젝트",
+    tier: "experiment",
+    category: ["AI 실험"],
+    role: ["기획", "제작"],
+    tags: ["학습 앱", "반복 학습", "중국어"],
+    ai: ["ChatGPT Sites"],
+    featuredStory: null,
+    visibility: "public",
+    detail: {
+      problem:
+        "혼자 중국어를 공부하며 문장을 통째로 외우다 보니 금방 잊었습니다. 문장의 틀은 그대로 두고 단어만 바꿔 보며 반복하면 내 말처럼 남지 않을까 싶어, 공부하던 문장으로 직접 학습 앱을 만들어 보았습니다.",
+      users: "중국어를 처음 배우는 나 자신(개인 학습용)",
+      roles: "학습 흐름 설계와 문장 정리, 제작을 맡았습니다.",
+      features: [
+        "55과 137문장 — 첫 네 문장부터 길 찾기·식사·부탁까지 순서대로",
+        "먼저 익혀요(듣기·천천히 듣기, 단어별 병음과 뜻) → 문장 조립하기 → 뜻 떠올리기",
+        "문장 놀이터 — 같은 문장 틀에 단어를 바꿔 끼워 새 문장 만들기",
+        "복습하기와 별표 문장 보관함",
+        "연속 학습일·경험치·오늘의 작은 목표(10문제)와 오늘의 한 문장",
+        "가입 없이 학습 기록은 브라우저에만 저장, 발음은 브라우저 음성으로 재생",
+      ],
+      process:
+        "ChatGPT Sites로 만들었습니다. 공부하던 문장을 한자·병음·뜻·단어 단위로 정리해 넣고, 한 문장을 듣기 → 조립 → 뜻 떠올리기 순서로 여러 번 만나게 설계했습니다.",
+      result: "매일 몇 분씩 한 문장이라도 다시 만나는 개인 학습 도구로 쓰고 있습니다. 업무 밖에서도 불편을 느끼면 작은 도구로 만들어 보는 습관을 보여 주는 실험입니다.",
+      stack: "ChatGPT Sites(제작·배포), 브라우저 음성 합성, localStorage",
+      gallery: [
+        { src: "assets/img/nihao-step.jpg", caption: "학습 홈 — 오늘의 목표, 챕터 여정, 오늘의 한 문장" },
+        { src: "assets/img/nihao-step-learn.jpg", caption: "먼저 익혀요 — 듣기·천천히 듣기와 단어별 병음·뜻" },
+        { src: "assets/img/nihao-step-play.jpg", caption: "문장 놀이터 — 문장 틀은 두고 단어만 바꿔 새 문장 만들기" },
+      ],
+      note: "사회복지 업무와 무관한 개인 학습용 프로젝트입니다.",
     },
   },
 ];
