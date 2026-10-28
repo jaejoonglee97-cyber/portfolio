@@ -461,9 +461,9 @@
   window.addEventListener("beforeprint", preparePrint);
   var pdfBtn = document.getElementById("pdfBtn");
   if (pdfBtn) {
+    // PDF는 A4 가로로 따로 구성한 문서(print.html)에서 저장
     pdfBtn.addEventListener("click", function () {
-      preparePrint();
-      setTimeout(function () { window.print(); }, 60);
+      window.open("print.html?auto=1", "_blank", "noopener");
     });
   }
 

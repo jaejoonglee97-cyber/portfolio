@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이재중 포트폴리오 (PDF)</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="assets/css/print.css?v=8" />
+</head>
+<body>
+  <!-- 화면에서만 보이는 안내 막대 (PDF에는 나오지 않음) -->
+  <div class="toolbar">
+    <div class="tb-text">
+      <strong>PDF로 저장하기</strong>
+      <span id="tbStatus">사진을 불러오는 중입니다…</span>
+    </div>
+    <div class="tb-tip">인쇄 창에서 대상 <b>PDF로 저장</b> · 레이아웃 <b>가로</b> · <b>배경 그래픽</b> 체크</div>
+    <button type="button" id="printBtn" disabled>PDF로 저장</button>
+    <a href="index.html">← 포트폴리오로</a>
+  </div>
+
+  <main id="doc"></main>
+
+  <script src="assets/js/data.js?v=45"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <script src="assets/js/print.js?v=7"></script>
+</body>
+</html>
