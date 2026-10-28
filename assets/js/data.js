@@ -72,7 +72,9 @@ const SITE = {
   // 이메일은 스팸 수집 방지를 위해 분리 보관 후 JS로 조립
   emailUser: "client_first",
   emailDomain: "naver.com",
-  updated: "2026-10-27",
+  updated: "2026-10-28",
+  // PDF 마지막 장에 넣을 공개 주소. 비워 두면 지금 열어 둔 사이트 주소를 씀
+  siteUrl: "",
 };
 
 const PROJECTS = [

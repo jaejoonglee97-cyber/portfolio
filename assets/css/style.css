@@ -149,6 +149,9 @@ a:focus-visible, button:focus-visible {
 [data-theme="dark"] .btn-primary { color: #0e1210; }
 .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
 .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+.btn-pdf { gap: 8px; background: var(--card); }
+.btn-pdf svg { width: 18px; height: 18px; }
+.print-only { display: none; }
 .btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
 
 /* ---------- 스크롤 프로그레스 바 (③) ---------- */
@@ -824,4 +827,132 @@ a:focus-visible, button:focus-visible {
   .detail-body { gap: 36px; }
   .detail-nav { flex-direction: column; }
   .detail-nav a { max-width: none; }
+}
+
+/* =========================================================
+   PDF로 저장 (인쇄용 화면)
+   - 화면 전용 요소는 숨기고, 접힌 목록은 펼치고, 카드가 쪽 사이에서 잘리지 않게
+   ========================================================= */
+@media print {
+  @page { size: A4; margin: 12mm 12mm 14mm; }
+  :root, [data-theme="dark"] {
+    --bg: #ffffff; --card: #ffffff; --ink: #1a221e; --teal: #059669; --coral: #047857;
+    --tint: #ecfdf5; --line: #e5e7eb; --muted: #5b6573; --shadow: none; --shadow-hover: none;
+  }
+  html { scroll-behavior: auto; }
+  body { font-size: 10.5pt; line-height: 1.55; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .wrap { max-width: none; padding: 0; }
+
+  /* 화면 전용 요소 숨김 */
+  .site-header, .progress-bar, .skip-link, .hero-actions, .menu-toggle,
+  .strength-tabs, .deck-controls, .strength-more, .filter-bar, .archive-more,
+  .media-thumb .play { display: none !important; }
+  .print-only { display: block !important; }
+
+  /* 쪽 나눔 */
+  .section, .hero { padding: 18px 0; border: 0; background: none !important; }
+  .section-head { margin-bottom: 14px; }
+  .section-head h2 { font-size: 17pt; }
+  .section-head p { max-width: none; }
+  #about, #fit, #strength, #featured, #record, #archive, #ai { break-before: page; }
+  .featured-card, .fit-card, .media-card, .activity-card, .s-card, .ai-step,
+  .archive-row, .timeline-item, .translate-note, .ai-principle, .print-end { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+
+  /* 첫 장 */
+  .hero { padding-top: 6mm; }
+  .hero h1 { font-size: 26pt; }
+  .hero .sub { font-size: 11pt; }
+  .stats-band { background: var(--tint) !important; border-radius: 10px; padding: 14px 0 4px; margin-top: 6px; }
+  .stats-grid { grid-template-columns: repeat(3, 1fr); padding: 10px 0 14px; }
+  .stat-num { font-size: 20pt; }
+
+  /* 소개 */
+  .about-grid { grid-template-columns: 1.5fr 1fr; gap: 28px; }
+  .timeline { position: static; }
+
+  /* 해 온 일 */
+  .fit-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .fit-card { padding: 14px 16px; box-shadow: none; }
+  .fit-card li { font-size: 9.5pt; }
+
+  /* 강점: 카드 6장을 3열로 펼침 */
+  .strength-wrap { grid-template-columns: 1fr; gap: 10px; }
+  .deck { height: auto !important; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .s-card {
+    position: static !important; width: auto !important; height: auto !important;
+    transform: none !important; opacity: 1 !important; box-shadow: none; padding: 8px; border-radius: 16px;
+  }
+  .s-card[aria-hidden="true"] { visibility: visible; }
+  .s-panel { flex: none; height: 120px; border-radius: 12px; }
+  .s-chip, .s-note, .s-num, .s-spark { display: none; }
+  .s-kind { top: 8px; left: 8px; font-size: 7.5pt; padding: 3px 8px; }
+  .s-blob { width: 64px; height: 60px; margin: -24px 0 0 -32px; }
+  .s-blob-icon svg { width: 26px; height: 26px; }
+  .s-shadow { display: none; }
+  .s-body { padding: 8px 4px 2px; }
+  .s-body h3 { font-size: 12pt; }
+  .s-body p { font-size: 8.5pt; min-height: 0; }
+  .s-links { margin-top: 6px; gap: 4px; }
+  .s-links a { font-size: 7.5pt; padding: 3px 8px; background: #1b2a22 !important; color: #fff !important; }
+
+  /* 대표 프로젝트 */
+  .featured-list { gap: 8px; }
+  #featured .section-head p { font-size: 9.5pt; }
+  .featured-card { grid-template-columns: 38% 1fr; box-shadow: none; }
+  .featured-card .thumb { border-right: 1px solid var(--line); border-bottom: 0; }
+  .featured-card .thumb.has-img { aspect-ratio: auto; min-height: 0; }
+  .featured-card .body { padding: 10px 14px; gap: 6px; }
+  .featured-card .card-foot { display: none; }
+  .card-metrics div { padding: 6px 8px; }
+  .card-metrics b { font-size: 10.5pt; }
+  .featured-card .story { padding: 8px 10px; }
+  .featured-card h3 { font-size: 13pt; }
+  .featured-card .summary, .featured-card .story { font-size: 9.5pt; }
+
+  /* 현장 기록 */
+  .video-grid { grid-template-columns: repeat(4, 1fr) !important; grid-auto-flow: row !important; overflow: visible !important; margin: 0 !important; padding: 0 !important; gap: 8px; }
+  .media-card { box-shadow: none; }
+  .media-card.no-thumb { flex-direction: row; align-items: center; }
+  .media-body { padding: 8px 10px 10px; }
+  .media-title { font-size: 9.5pt; }
+  .media-desc, .media-start { font-size: 8pt; }
+  .activity-grid { grid-template-columns: repeat(3, 1fr) !important; grid-auto-flow: row !important; overflow: visible !important; margin: 0 !important; padding: 0 !important; gap: 8px; }
+  .activity-card.folded { display: none !important; }
+  .activity-body { padding: 6px 10px 8px; }
+  .activity-photo { aspect-ratio: 2 / 1; }
+  .media-list { margin-bottom: 18px; }
+  .record-sub { margin-bottom: 8px; }
+  .activity-title { font-size: 9.5pt; }
+  .activity-desc { font-size: 8pt; }
+
+  /* 아카이브: 전부 펼침 */
+  .archive-row.folded { display: grid !important; }
+  .archive-row { grid-template-columns: 30px 1fr auto; padding: 7px 4px; gap: 10px; }
+  .archive-row .side { display: flex !important; grid-column: auto; flex-direction: column; align-items: flex-end; margin: 0; }
+  .archive-row .info h3 { font-size: 10pt; }
+  .archive-row .info p { font-size: 8.5pt; }
+
+  /* AI 작업 방식 */
+  .ai-flow { gap: 6px; }
+  .ai-step { grid-template-columns: 110px 1fr 1fr; padding: 8px 12px; }
+  .ai-step .step-name, .ai-step .step-tool, .ai-step .step-human { font-size: 9pt; }
+
+  /* 연락 + 마지막 장 */
+  #contact { break-before: avoid; }
+  .contact-box { padding: 6px 0; }
+  .print-end { break-before: page; padding-top: 30mm; }
+  .print-end .pe-kicker { font-size: 9pt; font-weight: 700; color: var(--teal); letter-spacing: .08em; }
+  .print-end h2 { font-size: 20pt; margin: 8px 0 10px; }
+  .print-end .pe-desc { color: var(--muted); margin-bottom: 22px; }
+  .print-end .pe-row { display: flex; align-items: center; gap: 24px; padding: 20px 22px; border: 1.5px solid var(--teal); border-radius: 14px; }
+  .print-end .pe-qr { width: 34mm; height: 34mm; flex: none; }
+  .print-end .pe-qr svg { width: 100%; height: 100%; }
+  .print-end .pe-url { font-size: 16pt; font-weight: 800; color: var(--teal); word-break: break-all; text-decoration: none; }
+  .print-end .pe-mail { margin-top: 8px; color: var(--muted); }
+
+  .site-footer { border: 0; padding: 10px 0 0; font-size: 8pt; }
+  a { color: inherit; }
 }

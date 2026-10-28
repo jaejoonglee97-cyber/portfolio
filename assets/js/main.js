@@ -432,6 +432,41 @@
     emailLine.appendChild(link);
   }
 
+  /* ---------- PDF로 저장 (브라우저 인쇄 → PDF) ---------- */
+  function preparePrint() {
+    // 숫자 띠는 화면에 들어올 때 올라가므로, 인쇄 전에 최종값으로 채움
+    document.querySelectorAll(".stat-num").forEach(function (el) {
+      var t = parseInt(el.getAttribute("data-target"), 10);
+      el.textContent = (el.getAttribute("data-prefix") || "") + t.toLocaleString("ko-KR") + (el.getAttribute("data-suffix") || "");
+    });
+    // 아카이브 필터는 '전체'로
+    var allBtn = document.querySelector("#filterBar .filter-btn");
+    if (allBtn && allBtn.getAttribute("aria-pressed") !== "true") allBtn.click();
+    document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("visible"); });
+    // 마지막 장 링크·QR
+    var url = (SITE.siteUrl || (location.origin + location.pathname.replace(/index\.html$/, ""))).replace(/\/?$/, "/");
+    var urlEl = document.getElementById("printUrl");
+    if (urlEl) { urlEl.textContent = url.replace(/^https?:\/\//, "").replace(/\/$/, ""); urlEl.href = url; }
+    var mailEl = document.getElementById("printMail");
+    if (mailEl) mailEl.textContent = SITE.emailUser + "@" + SITE.emailDomain;
+    var qrBox = document.getElementById("printQr");
+    if (qrBox && !qrBox.dataset.url && typeof qrcode === "function") {
+      try {
+        var qr = qrcode(0, "M"); qr.addData(url); qr.make();
+        qrBox.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+        qrBox.dataset.url = url;
+      } catch (e) { qrBox.style.display = "none"; }
+    }
+  }
+  window.addEventListener("beforeprint", preparePrint);
+  var pdfBtn = document.getElementById("pdfBtn");
+  if (pdfBtn) {
+    pdfBtn.addEventListener("click", function () {
+      preparePrint();
+      setTimeout(function () { window.print(); }, 60);
+    });
+  }
+
   /* ---------- 최종 업데이트 ---------- */
   var updated = document.getElementById("lastUpdated");
   if (updated) updated.textContent = SITE.updated;

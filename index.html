@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" />
-  <link rel="stylesheet" href="assets/css/style.css?v=24" />
+  <link rel="stylesheet" href="assets/css/style.css?v=26" />
   <script>
     // FOUC 방지: 저장된 테마 또는 시스템 설정을 렌더 전에 적용
     (function () {
@@ -56,6 +56,10 @@
         <div class="hero-actions">
           <a href="#fit" class="btn btn-primary">해 온 일 보기</a>
           <a href="#featured" class="btn btn-ghost">대표 프로젝트</a>
+          <button type="button" class="btn btn-ghost btn-pdf" id="pdfBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 19h14"/></svg>
+            PDF로 저장
+          </button>
         </div>
       </div>
     </section>
@@ -224,6 +228,22 @@
         </div>
       </div>
     </section>
+
+    <!-- PDF(인쇄)에서만 보이는 마지막 장: 온라인 포트폴리오 링크 -->
+    <section class="print-only print-end" aria-hidden="true">
+      <div class="wrap">
+        <p class="pe-kicker">온라인 포트폴리오</p>
+        <h2>더 자세한 내용은 웹에서 보실 수 있습니다</h2>
+        <p class="pe-desc">프로젝트별 상세 설명과 화면, 사업설명회·성과공유회 영상, 실제 서비스 링크를 모두 담았습니다.</p>
+        <div class="pe-row">
+          <div class="pe-qr" id="printQr"></div>
+          <div>
+            <a class="pe-url" id="printUrl" href="#"></a>
+            <p class="pe-mail">연락처 <span id="printMail"></span></p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -234,7 +254,8 @@
     </div>
   </footer>
 
-  <script src="assets/js/data.js?v=43"></script>
-  <script src="assets/js/main.js?v=20"></script>
+  <script src="assets/js/data.js?v=44"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+  <script src="assets/js/main.js?v=21"></script>
 </body>
 </html>
